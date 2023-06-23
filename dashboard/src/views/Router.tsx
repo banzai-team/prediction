@@ -3,6 +3,7 @@ import { Route, Routes, useLocation } from "react-router-dom";
 
 import SimpleLayout from "../components/SimpleLayout";
 import SidebarLayout from "../components/SidebarLayout";
+import Dashboard from '../components/Dashboard';
 
 export enum ROUTES {
     LOGIN = "/login",
@@ -27,7 +28,7 @@ const Router = () => {
     return (
         <SidebarLayout>
             <Routes>
-                <Route path={ROUTES.DASHBOARD} element={<div>DASHBOARD PAGE</div>}/>
+                <Route path={ROUTES.DASHBOARD} element={<Dashboard />}/>
             </Routes>
         </SidebarLayout>
     );
