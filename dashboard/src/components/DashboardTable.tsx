@@ -41,7 +41,7 @@ const DashboardTable: React.FC = () => {
             },
         ], []);
 
-    const [data, setData] = React.useState([
+    const data = [
         {
             objectId: "1",
             time: "21232134214",
@@ -72,7 +72,7 @@ const DashboardTable: React.FC = () => {
             taskCount: 5,
             progress: 30,
         },
-    ]);
+    ];
 
     const table = useReactTable({
         data,
