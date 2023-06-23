@@ -14,7 +14,7 @@ export class ImportService {
     }
 
     private handleBuildingObjectBatch(batch: Array<any>) {
-        console.log('Handling batch', batch);
+        
     }
 
     public importCriticalTaskFromDocuments(files: Array<Express.Multer.File>) {

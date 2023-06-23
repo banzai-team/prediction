@@ -1,7 +1,6 @@
 import { Controller, HttpStatus, ParseFilePipeBuilder, Post, UploadedFiles, UseInterceptors, ValidationPipe } from '@nestjs/common';
 import { ImportService } from './import.service';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { FileValidationPipe } from './file-validation.pipe';
 import { diskStorage } from 'multer';
 import { UnparseableDocument } from './import.exception';
 
