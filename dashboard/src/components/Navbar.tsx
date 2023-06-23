@@ -1,16 +1,8 @@
 import React from 'react';
-import {Flex, Box, Menu,
-    MenuButton,
-    MenuList,
-    MenuItem,
-    Button,
-    Avatar,
-    Link,
-    Image
-} from "@chakra-ui/react";
-import {useNavigate} from "react-router-dom";
+import { Avatar, Button, Flex, Image, Link, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
-import {ROUTES} from "../views/Router";
+import { ROUTES } from "../views/Router";
 
 const Navbar: React.FC<{children?: any}> = ({ children }) => {
     // TODO: add endpoint
