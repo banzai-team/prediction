@@ -22,4 +22,6 @@ WORKDIR /search
 COPY --from=builder /dist/apps/search .
 COPY --from=deps-builder /node_modules ./node_modules
 
+EXPOSE 3000
+
 CMD ["node", "main.js"]

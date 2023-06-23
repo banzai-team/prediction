@@ -1,0 +1,10 @@
+services:
+  backend:
+    image: banzai/predictor-gateway:v0.0.1
+    build:
+      context: backend/predictor-gateway
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+volumes:
+  app:
