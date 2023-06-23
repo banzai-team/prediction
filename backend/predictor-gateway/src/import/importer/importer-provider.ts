@@ -1,18 +1,21 @@
 import { Injectable } from "@nestjs/common";
 import { CsvDocumentImporter } from "./csv-importer";
 import { ExcelDocumentImporter } from "./excel-importer";
-import { DocumentImporter } from "../document-importer.interface";
+import { BatchDocumentImporter, DocumentImporter } from "../document-importer.interface";
 
 @Injectable()
 export class ImporterProvider {
-    private importers: DocumentImporter[];
+    private batchImporters: BatchDocumentImporter[];
     constructor(private readonly csvImporter: CsvDocumentImporter, 
             private readonly excelImporter: ExcelDocumentImporter) {
-                this.importers = [];
-                this.importers.push(csvImporter, excelImporter);
+                this.batchImporters = [];
+                this.batchImporters.push(csvImporter, excelImporter);
             }
 
-    dispatch(file: Express.Multer.File) {
-        this.importers.find(i => i.supports(file)).doParse(file);
+    batchParse(file: Express.Multer.File,
+        onBatchParsed: (batch: Array<any>) => void) {
+        this.batchImporters
+            .find(i => i.supports(file))
+            .doParse(file, onBatchParsed);
     }
 }

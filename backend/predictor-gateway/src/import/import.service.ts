@@ -9,7 +9,15 @@ export class ImportService {
         
     }
 
-    public importFromDocuments(files: Array<Express.Multer.File>) {
-        files.forEach(f => this.importerProvider.dispatch(f));
+    public importBuildingObjectFromDocuments(files: Array<Express.Multer.File>) {
+        files.forEach(f => this.importerProvider.batchParse(f, this.handleBuildingObjectBatch));
+    }
+
+    private handleBuildingObjectBatch(batch: Array<any>) {
+        console.log('Handling batch', batch);
+    }
+
+    public importCriticalTaskFromDocuments(files: Array<Express.Multer.File>) {
+        
     }
 }

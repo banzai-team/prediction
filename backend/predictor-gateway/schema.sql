@@ -4,7 +4,8 @@ CREATE table if not exists building_object (
 
 create table if not exists task_type (
 	code varchar primary key,
-	name varchar not null
+	name varchar not null,
+    is_critical boolean default false
 );
 
 create table if not exists task (
