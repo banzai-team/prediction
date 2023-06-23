@@ -1,14 +1,8 @@
 import React from 'react';
-import {Flex, Box, Menu,
-    MenuButton,
-    MenuList,
-    MenuItem,
-    Button,
-    Avatar
-} from "@chakra-ui/react";
-import {useNavigate} from "react-router-dom";
+import { Avatar, Button, Flex, Image, Link, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
-import {ROUTES} from "../views/Router";
+import { ROUTES } from "../views/Router";
 
 const Navbar: React.FC<{children?: any}> = ({ children }) => {
     // TODO: add endpoint
@@ -17,6 +11,10 @@ const Navbar: React.FC<{children?: any}> = ({ children }) => {
     const Logout = () => navigate(ROUTES.LOGIN);
     return (
         <Flex
+            zIndex={10}
+            position="fixed"
+            top={0}
+            left={0}
             height="45px"
             background="brand.900"
             color="white"
@@ -25,7 +23,9 @@ const Navbar: React.FC<{children?: any}> = ({ children }) => {
             px="20px"
             justifyContent="space-between"
         >
-            <Box>Logo</Box>
+            <Link href={ROUTES.DASHBOARD} isExternal>
+                <Image src='/logo-light.svg' alt='Logo' h="100%"/>
+            </Link>
             <Flex alignItems={'center'}>
                 <Menu>
                     <MenuButton

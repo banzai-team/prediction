@@ -1,0 +1,78 @@
+argo-cd:
+  configs:
+    cm:
+      admin.enabled: true
+      url: http://argocd.zulteedev.ru
+    params:
+      server.insecure: true
+    rbac:
+      policy.default: role:org-admin
+      policy.csv: |
+        p, role:org-admin, applications, *, */*, allow
+        p, role:org-admin, certificates, *, *, allow
+        p, role:org-admin, clusters, *, *, allow
+        p, role:org-admin, repositories, *, *, allow
+        p, role:org-admin, projects, *, *, allow
+        p, role:org-admin, accounts, update, *, allow
+        p, role:org-admin, gpgkeys, *, *, allow
+        
+        p, role:org-dev, applications, *, */*, allow
+        p, role:org-dev, certificates, create, *, allow
+        p, role:org-dev, certificates, update, *, allow
+        p, role:org-dev, repositories, create, *, allow
+        p, role:org-dev, repositories, update, *, allow
+        p, role:org-dev, repositories, delete, *, allow
+        p, role:org-dev, projects, create, *, allow
+        p, role:org-dev, projects, update, *, allow
+        p, role:org-dev, gpgkeys, create, *, allow
+
+    repositories:
+#      zultee:
+#        type: git
+#        name: zultee-repo
+#        url: git@bitbucket.org:zultee/cluster-apps.git
+#        sshPrivateKey: $git-repo-secret:id_rsa
+#      yandex:
+#        enableOCI: "true"
+#        name: cr.yandex
+#        password: |
+#        type: helm
+#        url: cr.yandex
+#        username: json_key
+#  helm pull oci://cr.yandex/yc-marketplace/yandex-cloud/yc-alb-ingress/yc-alb-ingress-controller-chart --version v0.1.13
+  server:
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/ingress.class: nginx
+      hosts:
+        - argocd.zulteedev.ru
+
+argocd-image-updater:
+#  serverAddress: "argocd.zulteedev.ru"
+  config:
+#    registries:
+#      - credentials: secret:argocd/registry-secret#creds
+#        name: yandex
+#        prefix: cr.yandex
+#        api_url: cr.yandex
+    argocd:
+      insecure: true
+
+env: staging
+createApps: true
+
+
+repoExternalSecret:
+  lockboxId: e6qv5cg66ucn3suqh1vb
+  name: sshPrivateKey
+
+argocdSecret:
+  lockboxId: e6qvgor2f1rueuajg0jc
+
+secretStoreProvider:
+  yandexlockbox:
+    auth:
+      authorizedKeySecretRef:
+        name: yc-auth
+        key: authorized-key
