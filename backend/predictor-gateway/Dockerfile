@@ -10,16 +10,16 @@ ADD ./package-lock.json .
 RUN npm install
 
 ADD ./ .
-RUN node node_modules/nx/bin/nx build search --configuration=production
+RUN npm run build
 
 FROM node AS deps-builder
-COPY --from=builder /search/dist/apps/search/package.json .
-COPY --from=builder /search/package-lock.json .
+COPY --from=builder /package.json .
+COPY --from=builder /package-lock.json .
 RUN npm install --production
 
 FROM node:16-alpine AS indexer
 WORKDIR /search
-COPY --from=builder /search/dist/apps/search .
+COPY --from=builder /dist/apps/search .
 COPY --from=deps-builder /node_modules ./node_modules
 
 CMD ["node", "main.js"]
