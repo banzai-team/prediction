@@ -1,6 +1,0 @@
-GET localhost:3000/health
-Content-Type: application/json
-
-{
-  "indexes": ["nft", "collections"]
-}
