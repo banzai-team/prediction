@@ -7,6 +7,8 @@ import {
     Button,
     InputGroup,
     InputLeftElement,
+    FormControl,
+    FormLabel,
 } from "@chakra-ui/react";
 import {BiLock} from "react-icons/bi";
 import {AiOutlineUser} from "react-icons/ai";
@@ -54,33 +56,37 @@ const LoginPage: React.FC<{}> = () => {
             </Text>
 
             <form onSubmit={formik.handleSubmit} style={{ width: "100%" }}>
-                <Text mb='2px'>Username*</Text>
-                <InputGroup mb={5}>
-                    <InputLeftElement pointerEvents='none'>
-                        <Icon as={AiOutlineUser} color='gray.300'/>
-                    </InputLeftElement>
-                    <Input
-                        placeholder='Enter Username'
-                        focusBorderColor="gray.400"
-                        errorBorderColor="brand.400"
-                        {...formik.getFieldProps("login")}
-                        isInvalid={!!formik.errors.login}
-                    />
-                </InputGroup>
-                <Text mb='2px'>Password*</Text>
-                <InputGroup mb={5} w="100%">
-                    <InputLeftElement pointerEvents='none'>
-                        <Icon as={RiLockPasswordLine} color='gray.300'/>
-                    </InputLeftElement>
-                    <Input
-                        type="password"
-                        placeholder='Enter Password'
-                        focusBorderColor="gray.400"
-                        errorBorderColor="brand.400"
-                        {...formik.getFieldProps("password")}
-                        isInvalid={!!formik.errors.password}
-                    />
-                </InputGroup>
+                <FormControl>
+                    <FormLabel>Username*</FormLabel>
+                    <InputGroup mb={5}>
+                        <InputLeftElement pointerEvents='none'>
+                            <Icon as={AiOutlineUser} color='gray.300'/>
+                        </InputLeftElement>
+                        <Input
+                            placeholder='Enter Username'
+                            focusBorderColor="gray.400"
+                            errorBorderColor="brand.400"
+                            {...formik.getFieldProps("login")}
+                            isInvalid={!!formik.errors.login}
+                        />
+                    </InputGroup>
+                </FormControl>
+                <FormControl>
+                    <FormLabel>Password*</FormLabel>
+                    <InputGroup mb={5} w="100%">
+                        <InputLeftElement pointerEvents='none'>
+                            <Icon as={RiLockPasswordLine} color='gray.300'/>
+                        </InputLeftElement>
+                        <Input
+                            type="password"
+                            placeholder='Enter Password'
+                            focusBorderColor="gray.400"
+                            errorBorderColor="brand.400"
+                            {...formik.getFieldProps("password")}
+                            isInvalid={!!formik.errors.password}
+                        />
+                    </InputGroup>
+                </FormControl>
                 <Button
                     variant={"brand"}
                     isLoading={formik.isSubmitting}

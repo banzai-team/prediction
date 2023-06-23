@@ -11,6 +11,7 @@ const Navbar: React.FC<{children?: any}> = ({ children }) => {
     const Logout = () => navigate(ROUTES.LOGIN);
     return (
         <Flex
+            zIndex={10}
             position="fixed"
             top={0}
             left={0}

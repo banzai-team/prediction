@@ -1,7 +1,9 @@
 import React from 'react';
 import {ColumnDef} from '@tanstack/react-table';
 
+import {Button, Flex, Text} from "@chakra-ui/react";
 import DashboardTable from '../components/DashboardTable';
+import PageTitle from "../components/PageTitle";
 
 // TODO: types
 const Dashboard: React.FC = () => {
@@ -66,7 +68,17 @@ const Dashboard: React.FC = () => {
       },
    ];
    
-   return <DashboardTable columns={columns} data={data}/>;
+   return (
+       <>
+          <Flex justifyContent="space-between">
+             <PageTitle>
+                Dashboard
+             </PageTitle>
+             <Button>add file</Button>
+          </Flex>
+          <DashboardTable columns={columns} data={data}/>
+       </>
+   );
 };
 
 export default Dashboard;
