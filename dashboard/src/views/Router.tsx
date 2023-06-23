@@ -1,0 +1,40 @@
+import * as React from "react"
+import { Route, Routes, useLocation } from "react-router-dom";
+
+import LoginPage from "./LoginPage";
+import SimpleLayout from "../components/SimpleLayout";
+import MainLayout from "../components/MainLayout";
+import Dashboard from '../components/Dashboard';
+
+export enum ROUTES {
+    LOGIN = "/login",
+    DASHBOARD = "/",
+};
+
+const Router = () => {
+    const location = useLocation();
+
+    // TODO: check autorization
+
+    // Not authorized user
+    if (location.pathname === ROUTES.LOGIN) {
+        return (
+            <SimpleLayout>
+                <Routes>
+                    <Route path={ROUTES.LOGIN} element={<LoginPage/>}/>
+                </Routes>
+            </SimpleLayout>
+        )
+    }
+
+    // Only for authorized user
+    return (
+        <MainLayout>
+            <Routes>
+                <Route path={ROUTES.DASHBOARD} element={<Dashboard />}/>
+            </Routes>
+        </MainLayout>
+    );
+}
+
+export default Router;
