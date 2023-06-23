@@ -2,7 +2,7 @@ import * as React from "react"
 import { Route, Routes, useLocation } from "react-router-dom";
 
 import SimpleLayout from "../components/SimpleLayout";
-import SidebarLayout from "../components/SidebarLayout";
+import MainLayout from "../components/MainLayout";
 
 export enum ROUTES {
     LOGIN = "/login",
@@ -25,11 +25,11 @@ const Router = () => {
 
     // Only for authorized user
     return (
-        <SidebarLayout>
+        <MainLayout>
             <Routes>
                 <Route path={ROUTES.DASHBOARD} element={<div>DASHBOARD PAGE</div>}/>
             </Routes>
-        </SidebarLayout>
+        </MainLayout>
     );
 }
 
