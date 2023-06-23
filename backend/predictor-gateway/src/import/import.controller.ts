@@ -1,4 +1,4 @@
-import { Controller, HttpStatus, ParseFilePipeBuilder, Post, UploadedFiles, UseInterceptors, ValidationPipe } from '@nestjs/common';
+import { Controller, HttpStatus, InternalServerErrorException, ParseFilePipeBuilder, Post, UploadedFiles, UseInterceptors, ValidationPipe } from '@nestjs/common';
 import { ImportService } from './import.service';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -24,15 +24,15 @@ export class ImportController {
                 errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
         })) files: Array<Express.Multer.File>) {
             try {
-                this.importService.importBuildingObjectFromDocuments(files);
+                await this.importService.importBuildingObjectFromDocuments(files);
             } catch (e) {
                 if (e instanceof UnparseableDocument) {
-                     // TODO return code and message
+                    console.error(e.stack);
+                    throw new InternalServerErrorException('Error parsing document');
                 } else {
                     throw e;
                 }
             }
-            
     }
 
     @Post('critical-task')

@@ -22,16 +22,23 @@ export class ImportService {
     }
 
     private async handleBuildingObjectBatch(batch: Array<any>) : Promise<void> {
+        const create = [];
+        
         for await (const bo of batch) {
             if (bo['obj_key']) {
+                console.log('asd');
                 const buildingObjectCreateDto = new BuildingObjectCreateDto();
                 buildingObjectCreateDto.objKey = bo['obj_key'];
-                await this.buildingObjectService.createBuildingObject(buildingObjectCreateDto);
+                if (!await this.buildingObjectService.existsBuildingObjectByKey( bo['obj_key'])) {
+                    create.push(buildingObjectCreateDto);
+                }
             }
             else {
                 console.warn('Row has no obj_key value. Ignoring');
             }
         }
+        console.log('asd');
+        await this.buildingObjectService.batchInsert(create);
         console.log('Completed handleBuildingObjectBatch');
     }
 
