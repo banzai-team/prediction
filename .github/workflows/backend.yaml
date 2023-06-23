@@ -1,10 +1,10 @@
 name: Backend CI workflow
 on:
   push:
-#    paths:
-#      - 'backend/**'
-#      - '.github/**'
-#      - 'infra/**'
+    #    paths:
+    #      - 'backend/**'
+    #      - '.github/**'
+    #      - 'infra/**'
     branches:
       - main
   pull_request:
@@ -15,43 +15,26 @@ env:
   BUILD_ZIP_NAME: build-${{ github.sha }}.zip
 
 jobs:
-#  build:
-#    runs-on: ubuntu-latest
-#    defaults:
-#      run:
-#        working-directory: ./backend
-#    steps:
-#      - name: Clone repository
-#        uses: actions/checkout@v3
-#
-#      - name: Use Node.js 18.x
-#        uses: actions/setup-node@v3
-#        with:
-#          cache: 'npm'
-#          node-version: 18.x
-#          cache-dependency-path: ./backend/package-lock.json
-#      - run: npm ci
-#
-#      - name: Build app
-#        run: npm run build
-#
-#      - run: zip -qq -r -j ${{ env.BUILD_ZIP_NAME }} ./dist/*
-#
-#      # Share artifact inside workflow
-#      - name: Share artifact inside workflow
-#        uses: actions/upload-artifact@v3
-#        with:
-#          path: ./backend/${{ env.BUILD_ZIP_NAME }}
-#          name: ${{ env.BUILD_ZIP_NAME }}
-#
-#      - run: |
-#          aws --endpoint-url=https://storage.yandexcloud.net/ \
-#           s3 cp \
-#           ${{ env.BUILD_ZIP_NAME }} s3://sibur-lambda-functions/
-#        env:
-#          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#          AWS_DEFAULT_REGION: 'us-east-1'
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend/predictor-gateway
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v3
+
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v3
+        with:
+          cache: 'npm'
+          node-version: 18.x
+          cache-dependency-path: ./backend/predictor-gateway/package-lock.json
+      - run: npm ci
+
+      - name: Build app
+        run: npm run build
+
   deploy:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
