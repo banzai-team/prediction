@@ -10,6 +10,9 @@ export class TaskType {
     @Column()
     name: string;
 
+    @Column({type: 'boolean', name: 'is_critical'})
+    isCritical: boolean;
+
     @OneToMany(type => Task, task => task.taskType)
     tasks: Task[];
 }
