@@ -1,6 +1,6 @@
 import React from 'react';
 
-import DashboardTable from './DashboardTable';
+import DashboardTable from '../components/DashboardTable';
 
 const Dashboard: React.FC = () => {
    return <DashboardTable />;
