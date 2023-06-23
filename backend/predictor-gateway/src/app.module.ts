@@ -5,21 +5,32 @@ import { ImportModule } from './import/import.module';
 import { BuildingObjectModule } from './building-object/building-object.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TaskModule } from './task/task.module';
-import { AuthModule } from './auth/auth.module';
+import { config } from './config/configuration';
+import { DataSourceOptions } from "typeorm";
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AuthModule } from "./auth/auth.module";
+import { HealthModule } from "./health/health.module";
+
 
 @Module({
-  imports: [AuthModule, ImportModule, BuildingObjectModule,
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'postgres',
-      database: 'building_predictor',
-      entities: ['dist/**/*.entity{.ts,.js}']
+  imports: [
+    ConfigModule.forRoot({
+      load: [config],
+      // validationSchema: envSchema,
+      isGlobal: true,
     }),
-    TaskModule,],
+    TypeOrmModule.forRootAsync({
+      useFactory: (configService: ConfigService) => configService.get<DataSourceOptions>('db'),
+      inject: [ConfigService],
+    }),
+    AuthModule,
+    ImportModule,
+    BuildingObjectModule,
+    TaskModule,
+    HealthModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+}
