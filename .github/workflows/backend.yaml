@@ -1,0 +1,89 @@
+name: Backend CI workflow
+on:
+  push:
+    paths:
+      - 'backend/**'
+      - '.github/**'
+      - 'infra/**'
+    branches:
+      - main
+  pull_request:
+    paths:
+      - 'backend/**'
+      - 'infra/**'
+env:
+  BUILD_ZIP_NAME: build-${{ github.sha }}.zip
+
+jobs:
+#  build:
+#    runs-on: ubuntu-latest
+#    defaults:
+#      run:
+#        working-directory: ./backend
+#    steps:
+#      - name: Clone repository
+#        uses: actions/checkout@v3
+#
+#      - name: Use Node.js 18.x
+#        uses: actions/setup-node@v3
+#        with:
+#          cache: 'npm'
+#          node-version: 18.x
+#          cache-dependency-path: ./backend/package-lock.json
+#      - run: npm ci
+#
+#      - name: Build app
+#        run: npm run build
+#
+#      - run: zip -qq -r -j ${{ env.BUILD_ZIP_NAME }} ./dist/*
+#
+#      # Share artifact inside workflow
+#      - name: Share artifact inside workflow
+#        uses: actions/upload-artifact@v3
+#        with:
+#          path: ./backend/${{ env.BUILD_ZIP_NAME }}
+#          name: ${{ env.BUILD_ZIP_NAME }}
+#
+#      - run: |
+#          aws --endpoint-url=https://storage.yandexcloud.net/ \
+#           s3 cp \
+#           ${{ env.BUILD_ZIP_NAME }} s3://sibur-lambda-functions/
+#        env:
+#          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#          AWS_DEFAULT_REGION: 'us-east-1'
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./infra
+    needs: build
+    steps:
+      # Download previously shared build
+      - name: Checkout the repository to the runner
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform with specified version on the runner
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.3.7
+      # Copy the files from build folder to the S3 bucket
+      - name: Save key file
+        env:
+          YANDEX_AUTH_KEY: ${{ secrets.YANDEX_AUTH_KEY }}
+        run: echo $YANDEX_AUTH_KEY > key.json
+      # Copy the files from build folder to the S3 bucket
+      - name: Init terraform
+        env:
+          AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
+          AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+        run: terraform init -backend-config="access_key=$AWS_ACCESS_KEY_ID" -backend-config="secret_key=$AWS_SECRET_ACCESS_KEY"
+      - name: Plan terraform
+        env:
+          TF_VAR_app_version: ${{ github.sha }}
+        run: terraform plan
+      - name: Deploy terraform
+        env:
+          TF_VAR_app_version: ${{ github.sha }}
+        run: terraform apply -auto-approve
