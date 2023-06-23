@@ -1,16 +1,16 @@
 name: Backend CI workflow
 on:
   push:
-    paths:
-      - 'backend/**'
-      - '.github/**'
-      - 'infra/**'
+#    paths:
+#      - 'backend/**'
+#      - '.github/**'
+#      - 'infra/**'
     branches:
       - main
   pull_request:
-    paths:
-      - 'backend/**'
-      - 'infra/**'
+#    paths:
+#      - 'backend/**'
+#      - 'infra/**'
 env:
   BUILD_ZIP_NAME: build-${{ github.sha }}.zip
 

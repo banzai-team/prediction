@@ -1,15 +1,15 @@
 name: Frontend CI workflow
 on:
   push:
-    paths-ignore:
-      - 'backend/**'
-      - 'infra/**'
+#    paths-ignore:
+#      - 'backend/**'
+#      - 'infra/**'
     branches:
       - main
   pull_request:
-    paths-ignore:
-      - 'backend/**'
-      - 'infra/**'
+#    paths-ignore:
+#      - 'backend/**'
+#      - 'infra/**'
 
 jobs:
   build:
