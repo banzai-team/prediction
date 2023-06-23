@@ -23,13 +23,12 @@ export class ImportService {
 
     private async handleBuildingObjectBatch(batch: Array<any>) : Promise<void> {
         const create = [];
-        
-        for await (const bo of batch) {
+        const uniqueKeys = new Set((await this.buildingObjectService.getUniqueObjectKeys()).map(r => r['obj_key']));
+        for (const bo of batch) {
             if (bo['obj_key']) {
-                console.log('asd');
                 const buildingObjectCreateDto = new BuildingObjectCreateDto();
                 buildingObjectCreateDto.objKey = bo['obj_key'];
-                if (!await this.buildingObjectService.existsBuildingObjectByKey( bo['obj_key'])) {
+                if (!uniqueKeys.has( bo['obj_key'])) {
                     create.push(buildingObjectCreateDto);
                 }
             }
