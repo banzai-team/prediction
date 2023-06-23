@@ -6,12 +6,12 @@ const overrides = {
         global: {
             // styles for the `body`
             body: {
-                color: "#000000"
+                color: "#000000",
             },
             // styles for the `a`
             a: {
                 _hover: {
-                    opacity: 0.5
+                    opacity: 0.8
                 },
             },
             // button: {
