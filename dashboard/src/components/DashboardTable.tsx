@@ -25,9 +25,13 @@ const DashboardTable: React.FC<Props> = ({columns, data, onRowClick}) => {
         debugTable: true,
     });
 
-    return <Box w="90vw" margin="30px auto">
+    return <Box mt="20px">
         <TableContainer>
-            <Table variant='striped' colorScheme='gray'>
+            <Table
+                // variant='striped'
+                colorScheme='gray'
+                size={{ base: "sm", sm: "md" }}
+            >
                 <Thead>
                     {table.getHeaderGroups().map(headerGroup => (
                         <Tr key={headerGroup.id}>
@@ -48,13 +52,23 @@ const DashboardTable: React.FC<Props> = ({columns, data, onRowClick}) => {
                         </Tr>
                     ))}
                 </Thead>
+
                 <Tbody>
                     {table.getRowModel().rows.map(row => {
                         return (
-                            <Tr key={row.id} onClick={() => onRowClick && onRowClick(row)}>
+                            <Tr
+                                key={row.id}
+                                onClick={() => onRowClick && onRowClick(row)}
+                                _hover={{
+                                    cursor: onRowClick ? "pointer" : "auto",
+                                    background: onRowClick ? "gray.100" : "none",
+                                }}
+                            >
                                 {row.getVisibleCells().map(cell => {
                                     return (
-                                        <Td key={cell.id}>
+                                        <Td
+                                            key={cell.id}
+                                        >
                                             {flexRender(
                                                 cell.column.columnDef.cell,
                                                 cell.getContext()

@@ -1,8 +1,9 @@
 import React from 'react';
 import {ColumnDef, Row} from '@tanstack/react-table';
 import {useNavigate} from 'react-router-dom';
+// import { CellProps } from 'react-table';
 
-import {Button, Flex} from "@chakra-ui/react";
+import {Button, Flex, Text} from "@chakra-ui/react";
 import { AddIcon } from '@chakra-ui/icons'
 import DashboardTable from '../components/DashboardTable';
 import PageTitle from "../components/PageTitle";
@@ -23,6 +24,13 @@ const Dashboard: React.FC = () => {
           {
              accessorKey: 'objectId',
              header: 'Object Id',
+             // cell: ({ cell }: any) => (
+             //     <Text
+             //         fontWeight="bold"
+             //     >
+             //        {cell.value}
+             //     </Text>
+             // ),
              cell: info => info.getValue(),
              footer: props => props.column.id,
           },
