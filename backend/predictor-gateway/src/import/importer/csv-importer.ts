@@ -3,7 +3,6 @@ import { BatchDocumentImporter, DocumentImporter } from "../document-importer.in
 import * as mime from 'mime-types';
 import * as csv from 'csv-parser';
 import * as fs from 'fs';
-import { BuildingObjectCreateDto } from "src/building-object/building-object.dto";
 
 @Injectable()
 export class CsvDocumentImporter implements BatchDocumentImporter {
@@ -12,8 +11,7 @@ export class CsvDocumentImporter implements BatchDocumentImporter {
     setBatchSize(size: number) {
         this.batchSize = size;
     }
-
-    ;
+    
 
     async doParse(document: Express.Multer.File, onBatchParsed: (batch: any[]) => void): Promise<void> {
         console.log('Prasing .csv');
