@@ -1,6 +1,7 @@
 import React from 'react';
 import {
-    ColumnDef, flexRender,
+    ColumnDef,
+    flexRender,
     getCoreRowModel,
     getPaginationRowModel,
     useReactTable
@@ -8,68 +9,8 @@ import {
 
 import {Table, TableContainer, Thead, Tr, Th, Td, Tbody, Box} from '@chakra-ui/react';
 
-const DashboardTable: React.FC = () => {
-    const columns = React.useMemo<ColumnDef<any>[]>(
-        () => [
-            {
-                accessorKey: 'objectId',
-                header: 'Object Id',
-                cell: info => info.getValue(),
-                footer: props => props.column.id,
-            },
-            {
-                accessorKey: 'time',
-                header: 'Time',
-                cell: info => info.getValue(),
-                footer: props => props.column.id,
-            },
-            {
-                accessorKey: 'taskCount',
-                header: 'Task Count',
-                cell: info => info.getValue(),
-                footer: props => props.column.id,
-            },
-            {
-                accessorKey: 'progress',
-                header: 'Progress',
-                cell: info => info.getValue(),
-                footer: props => props.column.id,
-            },
-        ], []);
-
-    const data = [
-        {
-            objectId: "1",
-            time: "21232134214",
-            taskCount: 5,
-            progress: 30,
-        },
-        {
-            objectId: "1",
-            time: "21232134214",
-            taskCount: 5,
-            progress: 30,
-        },
-        {
-            objectId: "1",
-            time: "21232134214",
-            taskCount: 5,
-            progress: 30,
-        },
-        {
-            objectId: "1",
-            time: "21232134214",
-            taskCount: 5,
-            progress: 30,
-        },
-        {
-            objectId: "1",
-            time: "21232134214",
-            taskCount: 5,
-            progress: 30,
-        },
-    ];
-
+// TODO: types
+const DashboardTable: React.FC<{columns: ColumnDef<any>[], data: any}> = ({columns, data}) => {
     const table = useReactTable({
         data,
         columns,
