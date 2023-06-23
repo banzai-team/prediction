@@ -11,24 +11,31 @@ export class CsvDocumentImporter implements BatchDocumentImporter {
     setBatchSize(size: number) {
         this.batchSize = size;
     }
-    
 
-    async doParse(document: Express.Multer.File, onBatchParsed: (batch: any[]) => void): Promise<void> {
+    async doParse(document: Express.Multer.File, onBatchParsed: (batch: any[]) => Promise<void>): Promise<void> {
         console.log('Prasing .csv');
         let batch = [];
-        fs.createReadStream(`./uploads/${document.originalname}`)
-            .pipe(csv())
-            .on('data', (data) => {
-                console.log(onBatchParsed);
+        await new Promise(async (res, rej) => {
+            fs.createReadStream(`./uploads/${document.originalname}`)
+            .pipe(csv({
+                mapHeaders: ({ header, index }) => header
+            }))
+            .on('data', async (data) => {
+                console.log('data', data);
                 batch.push(data);
                 if (batch.length === this.batchSize && onBatchParsed) {
-                    onBatchParsed(batch);
+                    await onBatchParsed(batch);
                     batch = [];
                 }
             })
-            .on('end', () => {
-                if (batch.length > 0 && onBatchParsed) onBatchParsed(batch);
+            .on('end', async () => {
+                console.log('end', batch.length, onBatchParsed);
+                if (batch.length > 0 && onBatchParsed) {
+                    await onBatchParsed(batch);
+                }
+                res(true);
             });
+        });
     }
     supports(document: Express.Multer.File): boolean {
         return document.mimetype === mime.lookup('.csv');

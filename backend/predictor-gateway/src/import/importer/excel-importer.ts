@@ -11,21 +11,22 @@ export class ExcelDocumentImporter implements BatchDocumentImporter {
         this.batchSize = size;
     }
 
-    doParse(document: Express.Multer.File, onBatchParsed: (batch: any[]) => void): void {
+    async doParse(document: Express.Multer.File, onBatchParsed: (batch: any[]) => Promise<void>): Promise<void> {
         console.log('Parsing excel');
         const data = XLSX.readFileSync(`./uploads/${document.originalname}`);
-        data.SheetNames.forEach((sheetName) => {
+        await Promise.all(data.SheetNames.map( async (sheetName) => {
             const rows = XLSX.utils.sheet_to_row_object_array(data.Sheets[sheetName]);
             let batch = [];
-            rows.forEach(r => {
-                batch.push(r);
+            for await (const row of rows) {
+                batch.push(row);
                 if (batch.length === this.batchSize) {
-                    if (onBatchParsed) onBatchParsed(batch);
+                    if (onBatchParsed) await onBatchParsed(batch);
                     batch = [];
                 }
-            });
-            if (batch.length > 0) onBatchParsed(batch);
-          })
+            }
+            if (batch.length > 0) await onBatchParsed(batch);
+        }));
+        console.log('Completed doParse');
     }
     supports(document: Express.Multer.File): boolean {
         return document.mimetype === mime.lookup('.xlsx');

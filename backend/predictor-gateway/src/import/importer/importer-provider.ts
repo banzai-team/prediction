@@ -12,9 +12,9 @@ export class ImporterProvider {
                 this.batchImporters.push(csvImporter, excelImporter);
             }
 
-    batchParse(file: Express.Multer.File,
-        onBatchParsed: (batch: Array<any>) => void) {
-        this.batchImporters
+    async batch(file: Express.Multer.File,
+        onBatchParsed: (batch: Array<any>) => Promise<void>): Promise<void> {
+        await this.batchImporters
             .find(i => i.supports(file))
             .doParse(file, onBatchParsed);
     }

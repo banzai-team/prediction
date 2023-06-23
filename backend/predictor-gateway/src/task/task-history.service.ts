@@ -6,7 +6,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 
 @Injectable()
-export class TaskhistoryService {
+export class TaskHistoryService {
     constructor(@InjectRepository(TaskHistory) private readonly taskHistoryRepository: Repository<TaskHistory>, 
         private readonly taskService: TaskService) {
     }
