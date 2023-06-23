@@ -30,7 +30,7 @@ const Navbar: React.FC<{children?: any}> = ({ children }) => {
             px="20px"
             justifyContent="space-between"
         >
-            <Link href={ROUTES.DASHBOARD} isExternal ml={3}>
+            <Link href={ROUTES.DASHBOARD} isExternal>
                 <Image src='/logo-light.svg' alt='Logo' h="100%"/>
             </Link>
             <Flex alignItems={'center'}>
