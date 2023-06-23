@@ -4,7 +4,9 @@ import {Flex, Box, Menu,
     MenuList,
     MenuItem,
     Button,
-    Avatar
+    Avatar,
+    Link,
+    Image
 } from "@chakra-ui/react";
 import {useNavigate} from "react-router-dom";
 
@@ -17,6 +19,9 @@ const Navbar: React.FC<{children?: any}> = ({ children }) => {
     const Logout = () => navigate(ROUTES.LOGIN);
     return (
         <Flex
+            position="fixed"
+            top={0}
+            left={0}
             height="45px"
             background="brand.900"
             color="white"
@@ -25,7 +30,9 @@ const Navbar: React.FC<{children?: any}> = ({ children }) => {
             px="20px"
             justifyContent="space-between"
         >
-            <Box>Logo</Box>
+            <Link href={ROUTES.DASHBOARD} isExternal ml={3}>
+                <Image src='/logo-light.svg' alt='Logo' h="100%"/>
+            </Link>
             <Flex alignItems={'center'}>
                 <Menu>
                     <MenuButton
