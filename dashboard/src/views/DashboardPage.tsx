@@ -1,7 +1,7 @@
 import React from 'react';
 import {ColumnDef} from '@tanstack/react-table';
 
-import {Button, Flex, Text} from "@chakra-ui/react";
+import {Button, Flex} from "@chakra-ui/react";
 import DashboardTable from '../components/DashboardTable';
 import PageTitle from "../components/PageTitle";
 
