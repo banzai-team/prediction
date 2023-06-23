@@ -1,5 +1,6 @@
 import React from 'react';
-import {ColumnDef} from '@tanstack/react-table';
+import {ColumnDef, Row} from '@tanstack/react-table';
+import {useNavigate} from 'react-router-dom';
 
 import {Button, Flex} from "@chakra-ui/react";
 import DashboardTable from '../components/DashboardTable';
@@ -7,6 +8,12 @@ import PageTitle from "../components/PageTitle";
 
 // TODO: types
 const Dashboard: React.FC = () => {
+   const navigate = useNavigate();
+   
+   const onRowClick = (row: Row<any>): void => {
+      navigate(`/object/${row.original.objectId}`);
+   };
+   
    const columns = React.useMemo<ColumnDef<any>[]>(
        () => [
           {
@@ -76,7 +83,7 @@ const Dashboard: React.FC = () => {
              </PageTitle>
              <Button>add file</Button>
           </Flex>
-          <DashboardTable columns={columns} data={data}/>
+          <DashboardTable columns={columns} data={data} onRowClick={onRowClick}/>
        </>
    );
 };

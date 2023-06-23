@@ -3,14 +3,20 @@ import {
     ColumnDef,
     flexRender,
     getCoreRowModel,
-    getPaginationRowModel,
+    getPaginationRowModel, Row,
     useReactTable
 } from '@tanstack/react-table';
 
 import {Table, TableContainer, Thead, Tr, Th, Td, Tbody, Box} from '@chakra-ui/react';
 
+interface Props {
+    columns: ColumnDef<any>[];
+    data: any;
+    onRowClick?: (row: Row<any>) => void;
+}
+
 // TODO: types
-const DashboardTable: React.FC<{columns: ColumnDef<any>[], data: any}> = ({columns, data}) => {
+const DashboardTable: React.FC<Props> = ({columns, data, onRowClick}) => {
     const table = useReactTable({
         data,
         columns,
@@ -45,7 +51,7 @@ const DashboardTable: React.FC<{columns: ColumnDef<any>[], data: any}> = ({colum
                 <Tbody>
                     {table.getRowModel().rows.map(row => {
                         return (
-                            <Tr key={row.id}>
+                            <Tr key={row.id} onClick={() => onRowClick && onRowClick(row)}>
                                 {row.getVisibleCells().map(cell => {
                                     return (
                                         <Td key={cell.id}>
