@@ -14,20 +14,49 @@ const overrides = {
                     opacity: 0.5
                 },
             },
+            // button: {
+            //     background: "brand.900",
+            //     _hover: {
+            //         background: "brand.700"
+            //     },
+            // },
         },
     },
     colors: {
         brand: {
             900: "#cb2323",
+            700: "#EA3E3E",
+            400: "#E96868",
         },
     },
     components: {
         Button: {
             baseStyle: {
-                background: "blue"
+            //     background: "red",
+                fontWeight: 'bold', // Normally, it is "semibold"
             },
-        }
-    }
+            variants: {
+                'brand': {
+                    bg: 'brand.900',
+                    color: "white",
+                    _hover: {
+                        background: "brand.700"
+                    },
+                },
+            },
+        },
+        Input: {
+            variants: {
+                'brand': {
+                    bg: 'brand.900',
+                    color: "white",
+                    _hover: {
+                        background: "brand.700"
+                    },
+                },
+            },
+        },
+    },
 }
 
 export default extendTheme(overrides)

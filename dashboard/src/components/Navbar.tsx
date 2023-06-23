@@ -11,6 +11,7 @@ import {useNavigate} from "react-router-dom";
 import {ROUTES} from "../views/Router";
 
 const Navbar: React.FC<{children?: any}> = ({ children }) => {
+    // TODO: add endpoint
     const navigate = useNavigate();
 
     const Logout = () => navigate(ROUTES.LOGIN);
