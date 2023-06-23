@@ -5,6 +5,8 @@ import PageTitle from "../components/PageTitle";
 import {Box, Button, Center, Flex, Text, IconButton} from "@chakra-ui/react";
 import { AttachmentIcon, CloseIcon } from '@chakra-ui/icons'
 import Dropzone from "../components/Dropzone";
+import BackButton from "../components/BackButton";
+import {ROUTES} from "./Router";
 
 const CreatePage: React.FC = () => {
     const formik = useFormik<{
@@ -30,6 +32,7 @@ const CreatePage: React.FC = () => {
             <PageTitle>
                 Add file
             </PageTitle>
+            <BackButton backRoute={ROUTES.DASHBOARD}>Back to dashboard</BackButton>
             <Center pt="20px">
                 <form onSubmit={formik.handleSubmit}>
                     <Flex
