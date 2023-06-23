@@ -20,6 +20,7 @@ RUN npm install --production
 
 FROM node:16-alpine AS indexer
 WORKDIR /app
+COPY --from=builder /app/package.json .
 COPY --from=builder /app/dist .
 COPY --from=deps-builder /node_modules ./node_modules
 
