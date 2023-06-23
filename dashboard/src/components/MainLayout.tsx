@@ -6,7 +6,7 @@ const MainLayout: React.FC<{children?: any}> = ({ children }) => {
     return (
         <Box height="100vh" >
             <Navbar/>
-            <Box pt="70px" px="40px" pb="30px" overflow="auto">
+            <Box pt="70px" px={{ base: "10px", sm: "40px"}} pb="30px" overflow="auto">
                 {children}
             </Box>
 

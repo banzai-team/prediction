@@ -3,17 +3,21 @@ import {ColumnDef, Row} from '@tanstack/react-table';
 import {useNavigate} from 'react-router-dom';
 
 import {Button, Flex} from "@chakra-ui/react";
+import { AddIcon } from '@chakra-ui/icons'
 import DashboardTable from '../components/DashboardTable';
 import PageTitle from "../components/PageTitle";
+import {ROUTES} from "./Router";
 
 // TODO: types
 const Dashboard: React.FC = () => {
    const navigate = useNavigate();
-   
+
    const onRowClick = (row: Row<any>): void => {
       navigate(`/object/${row.original.objectId}`);
    };
-   
+
+   const onCreate = () => navigate(ROUTES.CREATE);
+
    const columns = React.useMemo<ColumnDef<any>[]>(
        () => [
           {
@@ -81,7 +85,13 @@ const Dashboard: React.FC = () => {
              <PageTitle>
                 Dashboard
              </PageTitle>
-             <Button>add file</Button>
+             <Button
+                 size={{ base: "sm", sm: "md" }}
+                 leftIcon={<AddIcon />}
+                 onClick={onCreate}
+             >
+                Add file
+             </Button>
           </Flex>
           <DashboardTable columns={columns} data={data} onRowClick={onRowClick}/>
        </>

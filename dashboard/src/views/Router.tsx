@@ -4,6 +4,7 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import LoginPage from "./LoginPage";
 import SimpleLayout from "../components/SimpleLayout";
 import MainLayout from "../components/MainLayout";
+import CreatePage from './CreatePage';
 import DashboardPage from './DashboardPage';
 import ObjectPage from './ObjectPage';
 
@@ -11,6 +12,7 @@ export enum ROUTES {
     LOGIN = "/login",
     DASHBOARD = "/",
     OBJECT = "/object/:id",
+    CREATE = "/create",
 };
 
 const Router = () => {
@@ -34,6 +36,7 @@ const Router = () => {
         <MainLayout>
             <Routes>
                 <Route path={ROUTES.DASHBOARD} element={<DashboardPage/>}/>
+                <Route path={ROUTES.CREATE} element={<CreatePage/>}/>
                 <Route path={ROUTES.OBJECT} element={<ObjectPage/>}/>
             </Routes>
         </MainLayout>

@@ -7,6 +7,7 @@ const overrides = {
             // styles for the `body`
             body: {
                 color: "#000000",
+                // bg: "#fbfbfb"
             },
             // styles for the `a`
             a: {
