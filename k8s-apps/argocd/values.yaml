@@ -1,0 +1,2 @@
+createApps: true
+gitRepo: git@bitbucket.org:zultee/cluster-apps.git
