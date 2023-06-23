@@ -48,11 +48,11 @@ export class TaskHistory {
     @PrimaryGeneratedColumn('identity')
     id: number;
 
-    @Column({name: 'plan_start', type: 'timestamp with time zone'})
-    plannedStart: Date;
+    @Column({name: 'doc_start', type: 'timestamp with time zone'})
+    documentStart: Date;
 
-    @Column({name: 'plan_end', type: 'timestamp with time zone'})
-    plannedEnd: Date;
+    @Column({name: 'doc_end', type: 'timestamp with time zone'})
+    documentEnd: Date;
 
     @ManyToOne(type => Task, task => task.taskHistory)
     @JoinColumn({name: 'task_id'})
