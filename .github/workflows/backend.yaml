@@ -11,8 +11,6 @@ on:
 #    paths:
 #      - 'backend/**'
 #      - 'infra/**'
-env:
-  BUILD_ZIP_NAME: build-${{ github.sha }}.zip
 
 jobs:
   build:
@@ -47,10 +45,13 @@ jobs:
           YANDEX_AUTH_KEY: ${{ secrets.YANDEX_AUTH_KEY }}
           DOCKER_REGISTRY: cr.yandex/crpifuncdv6j95trtdq8
       - run: |
-         echo "Packaging docker image ..."
-         tag="$DOCKER_REGISTRY/banzai-predictor-gateway:${{ github.sha	}}"
-         docker build . -t $tag
-         docker push $tag
+          echo "Packaging docker image ..."
+          tag="$DOCKER_REGISTRY/banzai-predictor-gateway:${{ github.sha	}}"
+          docker build . -t $tag
+          docker push $tag
+        env:
+          YANDEX_AUTH_KEY: ${{ secrets.YANDEX_AUTH_KEY }}
+          DOCKER_REGISTRY: cr.yandex/crpifuncdv6j95trtdq8
 
   deploy:
     if: github.ref == 'refs/heads/main'
