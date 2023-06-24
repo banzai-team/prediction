@@ -4,6 +4,7 @@ import {useNavigate} from 'react-router-dom';
 
 import {Text} from "@chakra-ui/react";
 import MainTable from '../components/MainTable';
+import {BuildingObjectViewDto} from '../objects/buildingObject';
 
 const DashboardTableView: React.FC<{objects: any}> = ({ objects }) => {
     const navigate = useNavigate();
@@ -12,7 +13,7 @@ const DashboardTableView: React.FC<{objects: any}> = ({ objects }) => {
         navigate(`/object/${row.original.objKey}`);
     };
 
-    const columns = React.useMemo<ColumnDef<any>[]>(
+    const columns = React.useMemo<ColumnDef<BuildingObjectViewDto>[]>(
         () => [
             {
                 accessorKey: 'objKey',
