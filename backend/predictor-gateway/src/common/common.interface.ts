@@ -11,5 +11,6 @@ export interface PageableAndSortable extends Pageable {
 export interface Page<T> {
     content: Array<T>,
     size: number;
+    offset: number;
     total: number;
 }

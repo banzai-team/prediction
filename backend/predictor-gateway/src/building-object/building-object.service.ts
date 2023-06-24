@@ -26,13 +26,18 @@ export class BuildingObjectService {
         return buildingObject;
     }
 
-    async getBuildingObjectsPageWithRelations(pageable: Pageable): Promise<Page<BuildingObject>>  {
+    async getBuildingObjectsPageWithRelations(pageable: PageableAndSortable): Promise<Page<BuildingObject>>  {
         const [result, total] = await this.buildingObjectRepository.findAndCount({
             take: pageable.size,
             skip: pageable.offset,
+            order: {
+                objKey: pageable.desc ? 'DESC' : 'ASC'
+            },
             relations: ['tasks', 'tasks.taskType']});
+        console.log(result);
         return {
             content: result,
+            offset: pageable.offset,
             size: result.length,
             total
         };        
