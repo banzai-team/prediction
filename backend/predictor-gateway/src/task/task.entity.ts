@@ -32,6 +32,12 @@ export class Task {
     @Column({name: 'plan_end', type: 'timestamp with time zone'})
     plannedEnd: Date;
 
+    @Column({name: 'building_object_key'})
+    objectKey: string;
+
+    @Column({name: 'task_type_code'})
+    taskTypeCode: string;
+
     @ManyToOne(type => BuildingObject, buildingObject => buildingObject.tasks)
     @JoinColumn({name: 'building_object_key'})
     buildingObject: BuildingObject;
@@ -39,14 +45,6 @@ export class Task {
     @ManyToOne(type => TaskType, taskType => taskType.tasks)
     @JoinColumn({name: 'task_type_code'})
     taskType: TaskType;
-
-    // @OneToMany(type => TaskHistory, taskHistory => taskHistory.task, {
-    //     onDelete: 'CASCADE',
-    //     onUpdate: 'CASCADE',
-    //     cascade: ["insert", "remove"],
-    //     orphanedRowAction: "delete"
-    // })
-    // taskHistory: TaskHistory[];
 }
 
 
@@ -57,19 +55,22 @@ export class TaskHistory {
         name: 'obj_key',
         type: 'varchar'
     })
-    objectKey: number;
+    objectKey: string;
 
     @PrimaryColumn({
         name: 'task_type_code',
         type: 'varchar'
     })
-    taskTypeCode: number;
+    taskTypeCode: string;
 
     @PrimaryColumn({
         name: 'report_date',
         type: 'timestamp with time zone'
     })
-    reportDate: number;
+    reportDate: Date;
+
+    @Column({name: 'id'})
+    id: number;
 
     @Column({name: 'doc_start', type: 'timestamp with time zone'})
     documentStart: Date;
@@ -85,7 +86,7 @@ export class TaskHistory {
     taskType: TaskType;
 
     @ManyToOne(type => BuildingObject, bo => bo.taskHistories)
-    @JoinColumn({name: 'task_type_code'})
+    @JoinColumn({name: 'obj_key'})
     buildingObject: BuildingObject;
 
     // @ManyToOne(type => Task, task => task.taskHistory)
