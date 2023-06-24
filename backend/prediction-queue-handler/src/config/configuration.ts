@@ -26,7 +26,7 @@ const rabbitmq = () => ({
 export const config = () => ({
   db: dbConfig(),
   predictor: predictorConfig(),
-  rabbitmq: predictorConfig(),
+  rabbitmq: rabbitmq(),
 });
 
 export type Config = ReturnType<typeof config>;
