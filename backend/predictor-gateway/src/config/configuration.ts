@@ -15,8 +15,14 @@ const dbConfig = (): DataSourceOptions => ({
   migrations: [__dirname + '/../db/migrations/**/*{.ts,.js}'],
 });
 
+const predictorConfig = (): {host: string, port: number} => ({
+  host: process.env.PREDICTOR_HOST,
+  port: Number(process.env.PREDICTOR_PORT)
+});
+
 export const config = () => ({
   db: dbConfig(),
+  predictor: predictorConfig(),
 });
 
 export const PORT = process.env.PORT ? Number(process.env.PORT) : 3000;

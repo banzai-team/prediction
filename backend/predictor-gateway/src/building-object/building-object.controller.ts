@@ -20,7 +20,6 @@ export class BuildingObjectController {
         if (pageable.offset === undefined) pageable.offset = 0;
         if (pageable.size === undefined) pageable.size = 10;
         const page = await this.buildingObjectService.getBuildingObjectsPageWithRelations(pageable);
-        console.log(page);
         const dtoPage = {...page, content: page.content.map(r => this.mapToDtoWithRelations(r))};
         return dtoPage;
     }
