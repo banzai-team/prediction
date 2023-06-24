@@ -94,8 +94,8 @@ ingress:
   enabled: true
   className: nginx
   annotations:
-    nginx.ingress.kubernetes.io/proxy-body-size: "32m"
-    cert-manager.io/cluster-issuer: "letsencrypt-staging-dns"
+    nginx.ingress.kubernetes.io/proxy-body-size: "512m"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod-dns"
   tls:
     - hosts:
         - api.banzai-predict.site
