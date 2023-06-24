@@ -31,12 +31,12 @@ jobs:
           docker push $tag
         env:
           DOCKER_REGISTRY: cr.yandex/crpifuncdv6j95trtdq8
-#      - name: Commit report
-#        working-directory: k8s-apps/banzai-prediction-queue-handler/
-#        run: |
-#          echo -e "image: \n  tag: ${{ github.sha }}" > values-production.yaml
-#          git config user.name github-actions
-#          git config user.email github-actions@github.com
-#          git add values-production.yaml
-#          git commit -m "bump backend version"
-#          git push
+      - name: Commit report
+        working-directory: k8s-apps/banzai-ml-service/
+        run: |
+          echo -e "image: \n  tag: ${{ github.sha }}" > values-production.yaml
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add values-production.yaml
+          git commit -m "bump backend version"
+          git push

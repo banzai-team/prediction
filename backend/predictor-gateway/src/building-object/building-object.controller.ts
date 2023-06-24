@@ -32,6 +32,7 @@ export class BuildingObjectController {
             tasks: bo.tasks ? bo.tasks.map(t => {
                 const taskType = t.taskType;
                 return {
+                    offset: t.offset,
                     id: t.id,
                     taskType: { code: taskType.code, name: taskType.name, isCritical: taskType.isCritical},
                     plannedStart: t.plannedStart,

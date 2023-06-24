@@ -24,7 +24,7 @@ resource "yandex_kubernetes_node_group" "cluster_node_group" {
     resources {
       memory = 4
       cores  = 2
-      core_fraction = 20
+      core_fraction = 50
     }
 
     boot_disk {
@@ -82,9 +82,9 @@ resource "yandex_kubernetes_node_group" "cluster_apps_node_group" {
     }
 
     resources {
-      memory        = 4
-      cores         = 2
-      core_fraction = 50
+      memory        = 8
+      cores         = 4
+      core_fraction = 100
     }
 
     boot_disk {
