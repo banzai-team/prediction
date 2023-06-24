@@ -16,7 +16,8 @@ export class BuidlingObjectTaskController {
                 name: t.taskType.name
             },
             plannedEnd: t.plannedEnd,
-            plannedStart: t.plannedStart
+            plannedStart: t.plannedStart,
+            offset: t.offset
         }));
     }
 }
