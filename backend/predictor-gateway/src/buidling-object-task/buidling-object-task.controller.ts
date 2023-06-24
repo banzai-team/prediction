@@ -2,7 +2,7 @@ import { Controller, Get, Param } from '@nestjs/common';
 import { TaskViewDto } from 'src/task/task.dto';
 import { BuidlingObjectTaskService } from './buidling-object-task.service';
 
-@Controller('buidling-object')
+@Controller('building-object')
 export class BuidlingObjectTaskController {
     constructor(private readonly buidlingObjectTaskService: BuidlingObjectTaskService) {}
 
