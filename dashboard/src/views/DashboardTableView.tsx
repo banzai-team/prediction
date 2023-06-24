@@ -7,7 +7,6 @@ import MainTable from '../components/MainTable';
 
 const DashboardTableView: React.FC<{objects: any}> = ({ objects }) => {
     const navigate = useNavigate();
-    console.log(objects.content);
 
     const onRowClick = (row: Row<any>): void => {
         navigate(`/object/${row.original.objKey}`);
