@@ -1,1 +1,32 @@
+#rabbitmq:
+#  auth:
+#
 
+rabbitmq:
+  auth:
+      username:
+      password:
+  persistence:
+    enabled: true
+  livenessProbe:
+    enabled: false
+    initialDelaySeconds: 120
+    timeoutSeconds: 20
+    periodSeconds: 30
+    failureThreshold: 6
+    successThreshold: 1
+  readinessProbe:
+    enabled: false
+    initialDelaySeconds: 10
+    timeoutSeconds: 20
+    periodSeconds: 30
+    failureThreshold: 3
+    successThreshold: 1
+  nodeSelector:
+    target: apps
+
+  tolerations:
+    - key: "target"
+      operator: "Equal"
+      value: "apps"
+      effect: "NoSchedule"

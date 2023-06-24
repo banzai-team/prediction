@@ -1,13 +1,13 @@
 name: Frontend CI workflow
 on:
   push:
-#    paths:
-#      - 'dashboard/**'
+    paths:
+      - 'dashboard/**'
     branches:
       - main
   pull_request:
-#    paths:
-#      - 'dashboard/**'
+    paths:
+      - 'dashboard/**'
 
 jobs:
   build:

@@ -1,8 +1,8 @@
 name: Infra CI workflow
 on:
   push:
-#    paths:
-#      - 'infra/**'
+    paths:
+      - 'infra/**'
     branches:
       - main
 

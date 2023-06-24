@@ -1,0 +1,27 @@
+{
+  "login.title" : "Login",
+  "login.username" : "Username*",
+  "login.username.placeholder" : "Enter Username",
+  "login.password" : "Password*",
+  "login.password.placeholder" : "Enter Password",
+  "login.submit" : "Sign in",
+
+  "logout" : "Logout",
+
+  "dashboard.title" : "Dashboard",
+  "dashboard.table.key" : "Key",
+  "dashboard.table.taskCount" : "Task count",
+  "dashboard.addFile" : "Add file",
+  "dashboard.empty.text" : "Objects list is empty.",
+  "dashboard.empty.help" : "You can add your first data on",
+  "dashboard.empty.link" : "Create Page",
+
+  "addFile.title" : "Add file",
+  "addFile.back" : "Back to dashboard",
+  "addFile.upload.title" : "Add file with object data.",
+  "addFile.upload.fileFormat" : "You can add only .csv and .xlsx files",
+  "addFile.submit" : "Submit",
+
+  "dropzone.title" : "Drag and drop or click here",
+  "dropzone.drop" : "Drop the file here ..."
+}

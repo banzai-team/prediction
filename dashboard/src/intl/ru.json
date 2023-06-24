@@ -1,0 +1,27 @@
+{
+  "login.title" : "Авторизация",
+  "login.username" : "Логин*",
+  "login.username.placeholder" : "Введите логин",
+  "login.password" : "Пароль*",
+  "login.password.placeholder" : "Введите пароль",
+  "login.submit" : "Войти",
+
+  "logout" : "Выйти",
+
+  "dashboard.title" : "Главная панель",
+  "dashboard.table.key" : "Ключ",
+  "dashboard.table.taskCount" : "Колличество задач",
+  "dashboard.addFile" : "Загрузить файл",
+  "dashboard.empty.text" : "Список объектов пуст.",
+  "dashboard.empty.help" : "Вы можите загрузить данные с помощью",
+  "dashboard.empty.link" : "Страницы загрузки файла",
+
+  "addFile.title" : "Загрузка файла",
+  "addFile.back" : "Назад на главную панель",
+  "addFile.upload.title" : "Добавьте файл с данными.",
+  "addFile.upload.fileFormat" : "Вы можите добавить только файлы в формате .csv и .xlsx",
+  "addFile.submit" : "Загрузить",
+
+  "dropzone.title" : "Загрузите файл, нажав сюда или переташив его",
+  "dropzone.drop" : "Перетащить сюда ..."
+}

@@ -68,8 +68,9 @@ config:
   DB_USERNAME: app
   DB_PASSWORD: password
   PORT: 80
-  RABBIT_HOST: rabbitmq
+  RABBIT_HOST: rabbitmq.rabbitmq
   RABBIT_PORT: 5672
+  RABBIT_USERNAME: user
 
 postgresql:
   primary:

@@ -1,4 +1,5 @@
 import React from 'react';
+import {FormattedMessage, useIntl} from 'react-intl';
 import {
     Icon,
     Flex,
@@ -26,7 +27,8 @@ const validationSchema = Yup.object({
 
 const LoginPage: React.FC<{}> = () => {
     const {setIsAuth} = useAuthContext();
-    
+    const intl = useIntl();
+
     const navigate = useNavigate();
     const formik = useFormik<{
         login: string,
@@ -55,18 +57,20 @@ const LoginPage: React.FC<{}> = () => {
                 <Icon as={BiLock} fontSize="38px"/>
             </Flex>
             <Text fontWeight={600} fontSize={25} pt={3} pb={9}>
-                Sign in
+                <FormattedMessage id = "login.title"/>
             </Text>
 
             <form onSubmit={() => setIsAuth(true)} style={{ width: "100%" }}>
                 <FormControl>
-                    <FormLabel>Username*</FormLabel>
+                    <FormLabel>
+                        <FormattedMessage id = "login.username"/>
+                    </FormLabel>
                     <InputGroup mb={5}>
                         <InputLeftElement pointerEvents='none'>
                             <Icon as={AiOutlineUser} color='gray.300'/>
                         </InputLeftElement>
                         <Input
-                            placeholder='Enter Username'
+                            placeholder={intl.formatMessage({id: 'login.username.placeholder'})}
                             focusBorderColor="gray.400"
                             errorBorderColor="brand.400"
                             {...formik.getFieldProps("login")}
@@ -75,14 +79,16 @@ const LoginPage: React.FC<{}> = () => {
                     </InputGroup>
                 </FormControl>
                 <FormControl>
-                    <FormLabel>Password*</FormLabel>
+                    <FormLabel>
+                        <FormattedMessage id = "login.password"/>
+                    </FormLabel>
                     <InputGroup mb={5} w="100%">
                         <InputLeftElement pointerEvents='none'>
                             <Icon as={RiLockPasswordLine} color='gray.300'/>
                         </InputLeftElement>
                         <Input
                             type="password"
-                            placeholder='Enter Password'
+                            placeholder={intl.formatMessage({id: 'login.password.placeholder'})}
                             focusBorderColor="gray.400"
                             errorBorderColor="brand.400"
                             {...formik.getFieldProps("password")}
@@ -98,7 +104,7 @@ const LoginPage: React.FC<{}> = () => {
                     w="100%"
                     mt={8}
                 >
-                    Sign in
+                    <FormattedMessage id = "login.submit"/>
                 </Button>
             </form>
 

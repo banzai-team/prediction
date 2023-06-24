@@ -78,14 +78,17 @@ autoscaling:
 affinity: {}
 
 config:
-  DB_HOST: banzai-predictor-gateway-postgresql
+  DB_HOST: banzai-predictor-gateway-postgresql.banzai-predictor-gateway
   DB_NAME: building_predictor
   DB_PORT: "5432"
   DB_USERNAME: app
   DB_PASSWORD: password
   PORT: 80
-  RABBIT_HOST: rabbitmq
+  RABBIT_HOST: rabbitmq.rabbitmq
   RABBIT_PORT: 5672
+  RABBIT_USERNAME: user
+  PREDICTOR_HOST: banzai-ml-service.banzai-ml-service
+  PREDICTOR_PORT: 80
 
 nodeSelector:
   target: apps
