@@ -8,6 +8,7 @@ import * as moment from 'moment';
 import { TaskService } from 'src/task/task.service';
 import { TaskHistoryService } from 'src/task/task-history.service';
 import { PredictorService } from 'src/predictor/predictor.service';
+import { ExcelDocumentImporter } from './importer/excel-importer';
 
 const keys = {
     objKey: 'obj_key',
@@ -41,6 +42,13 @@ export class ImportService {
     public async importBuildingObjectFromDocuments(files: Array<Express.Multer.File>) {
         for await (const f of files) {
             await this.importerProvider.batch(f, async (batch) => {await this.handleBuildingObjectBatch(batch)});
+        } 
+        console.log('Completed importBuildingObjectFromDocuments');
+    }
+
+    public async importCriticalTaskFromDocuments(files: Array<Express.Multer.File>): Promise<void> {
+        for await (const f of files) {
+            await this.importerProvider.batch(f, async (batch) => {await this.handleCriticalTaskTypes(batch)});
         } 
         console.log('Completed importBuildingObjectFromDocuments');
     }
@@ -127,6 +135,24 @@ export class ImportService {
         console.log('Completed handleBuildingObjectBatch', batch.length);
     }
 
+    private async handleCriticalTaskTypes(batch: Array<any>) {
+        await Promise.all(batch.map(async (row) => {
+            if (row['Кодзадачи']) {
+                const taskType = await this.taskTypeService.fetchTaskTypeByCode(row['Кодзадачи']);
+                if (taskType) {
+                    taskType.isCritical = true;
+                    await this.taskTypeService.updateTaskType(taskType);
+                } else {
+                    const taskTypeCreate = new TaskTypeCreateDto();
+                    taskTypeCreate.code = row['Кодзадачи'];
+                    taskTypeCreate.name = row['НазваниеЗадачи'];
+                    taskTypeCreate.isCritical = true;
+                    await this.taskTypeService.createTaskType(taskTypeCreate);
+                }
+            }
+        }));
+    }
+
     parseDate(value: string): Date {
         if (!value) return;
         if (value.indexOf('/') >= 0) {
@@ -154,10 +180,6 @@ export class ImportService {
         var parts = value.split("-");
         let dateFormat =  new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
         return moment(dateFormat).utcOffset(0, true).toDate();
-    }
-
-    public importCriticalTaskFromDocuments(files: Array<Express.Multer.File>) {
-        
     }
 
     private async submitRowToQueue(rows: Array<any>) {
