@@ -1,11 +1,11 @@
-# Default values for banzai-predictor-gateway.
+# Default values for banzai-ml-service.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
 image:
-  repository: cr.yandex/crpifuncdv6j95trtdq8/banzai-predictor-gateway
+  repository: cr.yandex/crpifuncdv6j95trtdq8/banzai-ml-service
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
@@ -40,6 +40,22 @@ service:
   type: ClusterIP
   port: 80
 
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
@@ -59,52 +75,6 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
-affinity: {}
-
-config:
-  DB_HOST: banzai-predictor-gateway-postgresql
-  DB_NAME: building_predictor
-  DB_PORT: "5432"
-  DB_USERNAME: app
-  DB_PASSWORD: password
-  PORT: 80
-  RABBIT_HOST: rabbitmq
-  RABBIT_PORT: 5672
-
-postgresql:
-  primary:
-    nodeSelector:
-      target: apps
-    tolerations:
-      - key: "target"
-        operator: "Equal"
-        value: "apps"
-        effect: "NoSchedule"
-    persistence:
-      enabled: true
-      size: 30Gi
-  auth:
-    database: building_predictor
-    password: "password"
-    username: "app"
-
-ingress:
-  enabled: true
-  className: nginx
-  annotations:
-    nginx.ingress.kubernetes.io/proxy-body-size: "512m"
-    cert-manager.io/cluster-issuer: "letsencrypt-prod-dns"
-  tls:
-    - hosts:
-        - api.banzai-predict.site
-      secretName: letsencrypt-dns
-  hosts:
-    - host: api.banzai-predict.site
-      paths:
-        - path: /
-          pathType: Prefix
-
-
 nodeSelector:
   target: apps
 
@@ -113,3 +83,5 @@ tolerations:
     operator: "Equal"
     value: "apps"
     effect: "NoSchedule"
+
+affinity: {}
