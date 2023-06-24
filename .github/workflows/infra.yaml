@@ -1,8 +1,8 @@
 name: Infra CI workflow
 on:
   push:
-    paths:
-      - 'infra/**'
+#    paths:
+#      - 'infra/**'
     branches:
       - main
 
@@ -13,7 +13,6 @@ jobs:
     defaults:
       run:
         working-directory: ./infra
-    needs: build
     steps:
       # Download previously shared build
       - name: Checkout the repository to the runner
