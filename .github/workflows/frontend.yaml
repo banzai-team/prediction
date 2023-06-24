@@ -32,6 +32,8 @@ jobs:
           cache-dependency-path: ./dashboard/package-lock.json
       - run: npm ci
       - run: npm run build
+        env:
+          REACT_APP_API_URL: https://api.banzai-predict.site
 
       - run: zip -qq -r build.zip build
 
