@@ -13,7 +13,7 @@ const DashboardTableView: React.FC<{objects: any}> = ({ objects }) => {
         navigate(`/object/${row.original.objKey}`);
     };
 
-    const columns = React.useMemo<ColumnDef<BuildingObjectViewDto>[]>(
+    const columns = React.useMemo<ColumnDef<any>[]>(
         () => [
             {
                 accessorKey: 'objKey',
