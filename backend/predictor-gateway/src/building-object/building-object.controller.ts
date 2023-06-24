@@ -1,7 +1,6 @@
 import { Controller, Get, Param, ParseIntPipe, Query, UsePipes } from '@nestjs/common';
 import { BuildingObjectService } from './building-object.service';
 import { BuildingObjectViewDto } from './buidling-object.dto';
-import { TaskTypeViewDto, TaskViewDto } from 'src/task/task.dto';
 import { Page, Pageable, PageableAndSortable } from 'src/common/common.interface';
 import { BuildingObject } from './buidling-object.entity';
 import { PageableValidationPipe } from 'src/common/common.pipe';
