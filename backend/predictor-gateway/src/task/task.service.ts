@@ -7,6 +7,7 @@ import { TaskTypeService } from './task-type.service';
 import { BuildingObjectService } from 'src/building-object/building-object.service';
 import { TaskNotFoundException } from './task.exception';
 import { plainToClass } from 'class-transformer';
+import { PredictorService } from 'src/predictor/predictor.service';
 
 @Injectable()
 export class TaskService {
@@ -88,6 +89,5 @@ export class TaskService {
             console.error(e);
         }
         console.log('Task batchUpsert completed', batch.length);
-        
     }
 }

@@ -54,26 +54,26 @@ export class Task {
 @Entity('task_history')
 export class TaskHistory {
     
-    @PrimaryColumn({
+    @PrimaryGeneratedColumn('identity')
+    id: number;
+
+    @Column({
         name: 'obj_key',
         type: 'varchar'
     })
     objectKey: string;
 
-    @PrimaryColumn({
+    @Column({
         name: 'task_type_code',
         type: 'varchar'
     })
     taskTypeCode: string;
 
-    @PrimaryColumn({
+    @Column({
         name: 'report_date',
         type: 'timestamp with time zone'
     })
     reportDate: Date;
-
-    @Column({name: 'id'})
-    id: number;
 
     @Column({name: 'doc_start', type: 'timestamp with time zone'})
     documentStart: Date;
@@ -91,8 +91,4 @@ export class TaskHistory {
     @ManyToOne(type => BuildingObject, bo => bo.taskHistories)
     @JoinColumn({name: 'obj_key'})
     buildingObject: BuildingObject;
-
-    // @ManyToOne(type => Task, task => task.taskHistory)
-    // @JoinColumn({name: 'task_id'})
-    // task: Task;
 }
