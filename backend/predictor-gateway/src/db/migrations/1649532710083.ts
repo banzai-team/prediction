@@ -6,6 +6,8 @@ export class Initial1649532710083 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`
         alter table task_history alter column report_date drop not null;
+        alter table task_history alter column doc_start drop not null;
+        alter table task_history alter column doc_end drop not null;
         alter table task_history drop constraint task_history_pkey;
         alter table task_history add constraint task_history_pkey primary key (id);
         `);
