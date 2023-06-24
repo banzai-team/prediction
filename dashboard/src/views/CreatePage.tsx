@@ -1,14 +1,22 @@
 import React from 'react';
 import { useFormik } from "formik";
-
-import PageTitle from "../components/PageTitle";
+import { useMutation } from "react-query";
 import {Box, Button, Center, Flex, Text, IconButton} from "@chakra-ui/react";
 import { AttachmentIcon, CloseIcon } from '@chakra-ui/icons'
+
+import { sendModel } from "../domain/api";
+import PageTitle from "../components/PageTitle";
 import Dropzone from "../components/Dropzone";
 import BackButton from "../components/BackButton";
 import {ROUTES} from "./Router";
 
 const CreatePage: React.FC = () => {
+    const send = useMutation(sendModel, {
+        // onSuccess: (data) => {
+        //     navigate(`/jobs/${data.data}`);
+        // }
+    });
+
     const formik = useFormik<{
         files: {
             path: string;
@@ -21,8 +29,8 @@ const CreatePage: React.FC = () => {
         initialValues: {
             files: [],
         },
-        // TODO: add endpoint
-        onSubmit: async (values) => console.log(values),
+        onSubmit: async (values) => send.mutate({ file: values.files[0] }),
+        // onSubmit: async (values) => console.log(values),
     });
 
     const hasFile = !!formik.values.files.length;
@@ -91,6 +99,7 @@ const CreatePage: React.FC = () => {
                                 Lorem ipsum dolor sit amet, at eos solum periculis, iusto aliquip complectitur est ad.
                             </Text>
                             <Button
+                                isLoading={send.isLoading}
                                 type="submit"
                                 mt="20px"
                                 variant="brand"

@@ -18,7 +18,6 @@ const BackButton: React.FC<BackButtonProps> = ({children, backRoute}) => {
         }
     }
 
-    console.log(window.history, window.history.length);
     return (
         <Button
             onClick={onBack}
