@@ -2,12 +2,12 @@ name: Backend CI workflow
 on:
   push:
     paths:
-      - 'backend/**'
+      - 'backend/predictor-gateway/**'
     branches:
       - main
   pull_request:
     paths:
-      - 'backend/**'
+      - 'backend/predictor-gateway/**'
 permissions:
   contents: write
 
