@@ -24,14 +24,13 @@ const Dashboard: React.FC = () => {
           {
              accessorKey: 'objectId',
              header: 'Object Id',
-             // cell: ({ cell }: any) => (
-             //     <Text
-             //         fontWeight="bold"
-             //     >
-             //        {cell.value}
-             //     </Text>
-             // ),
-             cell: info => info.getValue(),
+             cell: ({ getValue }: any) => (
+                 <Text
+                     fontWeight="bold"
+                 >
+                    {getValue()}
+                 </Text>
+             ),
              footer: props => props.column.id,
           },
           {
