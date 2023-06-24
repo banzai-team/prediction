@@ -1,4 +1,9 @@
 services:
+  redis:
+    image: 'redis'
+    command: [ "redis-server", "--bind", "redis", "--port", "6379" ]
+    ports:
+      - '6379:6379'
   postgres:
     image: postgres:12
     environment:
@@ -12,6 +17,8 @@ services:
       - -c
       - sleep 1; npm run migration:run; node main.js
     environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
       DB_NAME: building_predictor
       DB_HOST: postgres
       DB_PORT: 5432

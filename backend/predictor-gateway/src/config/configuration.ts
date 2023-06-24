@@ -15,14 +15,23 @@ const dbConfig = (): DataSourceOptions => ({
   migrations: [__dirname + '/../db/migrations/**/*{.ts,.js}'],
 });
 
-const predictorConfig = (): {host: string, port: number} => ({
+const predictorConfig = (): { host: string, port: number } => ({
   host: process.env.PREDICTOR_HOST,
   port: Number(process.env.PREDICTOR_PORT)
+});
+
+const redisConfig = () => ({
+  host: process.env.REDIS_HOST,
+  password: process.env.REDIS_PASSWORD,
+  port: process.env.REDIS_PORT ? parseInt(process.env.REDIS_PORT, 10) : 6379,
 });
 
 export const config = () => ({
   db: dbConfig(),
   predictor: predictorConfig(),
+  redis: redisConfig(),
 });
+
+export type Config = ReturnType<typeof config>;
 
 export const PORT = process.env.PORT ? Number(process.env.PORT) : 3000;
