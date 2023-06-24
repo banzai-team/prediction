@@ -9,6 +9,9 @@ COPY ./requirements.txt /code/requirements.txt
 COPY ./models /code/models
 
 #
+RUN unzip models/predictor.zip
+
+#
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
 #
