@@ -38,6 +38,15 @@ export class BuildingObjectService {
         console.log('batchInsert complete', createDtos.length);
     }
 
+    async batchUpsert(createDtos: BuildingObjectCreateDto[]) {
+        await this.dataSource.createQueryBuilder()
+            .insert()
+            .into(BuildingObject)
+            .values(createDtos.map(d => plainToClass(BuildingObject, d)))
+            .orIgnore(true)
+            .execute();
+    }
+
     async getUniqueObjectKeys(): Promise<Array<{obj_key: string}>> {
         return await this.buildingObjectRepository.createQueryBuilder()
             .select(['obj_key'])

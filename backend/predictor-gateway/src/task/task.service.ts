@@ -6,6 +6,7 @@ import { TaskCreateDto } from './task.dto';
 import { TaskTypeService } from './task-type.service';
 import { BuildingObjectService } from 'src/building-object/building-object.service';
 import { TaskNotFoundException } from './task.exception';
+import { plainToClass } from 'class-transformer';
 
 @Injectable()
 export class TaskService {
@@ -33,5 +34,13 @@ export class TaskService {
         const task = await this.taskRepository.findOneBy({ id });
         if (!task) throw new TaskNotFoundException("Task not found", id);
         return task;
+    }
+
+    public async batchInsert(batch: TaskCreateDto[]) {
+        this.taskRepository.createQueryBuilder()
+            .insert()
+            .into(Task)
+            .values(batch)
+            .execute();
     }
 }
