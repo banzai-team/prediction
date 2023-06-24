@@ -1,5 +1,6 @@
 import React from 'react';
 import {useParams} from "react-router-dom";
+import {Flex, Text} from "@chakra-ui/react";
 
 import PageTitle from "../components/PageTitle";
 import BackButton from "../components/BackButton";
@@ -50,12 +51,24 @@ const ObjectPage: React.FC = () => {
         },
     ];
 
+    const criticalSum = data?.data.reduce( (a: number, b: any) => {
+        return b.taskType.isCritical ? a + b.offset : a;
+    }, 0);
+
     return (
         <>
             <PageTitle>
                 Object #{id}
             </PageTitle>
             <BackButton backRoute={ROUTES.DASHBOARD}>Back to dashboard</BackButton>
+
+            <Flex
+                pt="20px"
+                alignItems="center"
+            >
+                <Text>Sum of Critical Offsets:</Text>
+                <Text pl="10px" fontSize="xl" fontWeight="bold">{criticalSum}</Text>
+            </Flex>
             <GanttChart tasks={tasks}/>
         </>
     )
