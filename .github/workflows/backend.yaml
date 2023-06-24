@@ -58,6 +58,6 @@ jobs:
           echo -e "image: \n  tag: ${{ github.sha }}" > values-production.yaml
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add values-${ENV}.yaml
+          git add values-production.yaml
           git commit -m "bump backend version"
           git push
