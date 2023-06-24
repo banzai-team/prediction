@@ -15,6 +15,9 @@ export class TaskType {
 
     @OneToMany(type => Task, task => task.taskType)
     tasks: Task[];
+
+    @OneToMany(type => TaskHistory, taskHistory => taskHistory.taskType)
+    taskHistories: TaskHistory[];
 }
 
 @Entity('task')
@@ -76,6 +79,15 @@ export class TaskHistory {
 
     @Column({name: 'progress', type: 'int2'})
     progress: number;
+
+    @ManyToOne(type => TaskType, taskType => taskType.taskHistories)
+    @JoinColumn({name: 'task_type_code'})
+    taskType: TaskType;
+
+    @ManyToOne(type => BuildingObject, bo => bo.taskHistories)
+    @JoinColumn({name: 'task_type_code'})
+    buildingObject: BuildingObject;
+
     // @ManyToOne(type => Task, task => task.taskHistory)
     // @JoinColumn({name: 'task_id'})
     // task: Task;
