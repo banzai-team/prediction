@@ -29,7 +29,7 @@ spec:
           command:
             - "npm"
             - "run"
-            - "npm run migration:run"
+            - "migration:run"
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
