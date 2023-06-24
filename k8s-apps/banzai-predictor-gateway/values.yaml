@@ -59,10 +59,6 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
-nodeSelector: {}
-
-tolerations: []
-
 affinity: {}
 
 config:
@@ -105,3 +101,13 @@ ingress:
       paths:
         - path: /
           pathType: Prefix
+
+
+nodeSelector:
+  target: apps
+
+tolerations:
+  - key: "target"
+    operator: "Equal"
+    value: "apps"
+    effect: "NoSchedule"
