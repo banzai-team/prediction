@@ -140,6 +140,7 @@ export class ImportService {
             if (row['Кодзадачи']) {
                 const taskType = await this.taskTypeService.fetchTaskTypeByCode(row['Кодзадачи']);
                 if (taskType) {
+                    taskType.name = row['НазваниеЗадачи'];
                     taskType.isCritical = true;
                     await this.taskTypeService.updateTaskType(taskType);
                 } else {
