@@ -1,3 +1,3 @@
 export const config = {
-  apiUrl: process.env.REACT_APP_API_URL ?? "https://api.banzai-predict.site"
+  apiUrl: process.env.REACT_APP_API_URL ?? "http://localhost:3000"
 }
