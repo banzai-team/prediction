@@ -12,6 +12,7 @@ import { AuthModule } from "./auth/auth.module";
 import { HealthModule } from "./health/health.module";
 import { PredictorModule } from './predictor/predictor.module';
 import { CommonModule } from './common/common.module';
+import { BuidlingObjectTaskModule } from './buidling-object-task/buidling-object-task.module';
 
 
 @Module({
@@ -32,6 +33,7 @@ import { CommonModule } from './common/common.module';
     HealthModule,
     PredictorModule,
     CommonModule,
+    BuidlingObjectTaskModule,
   ],
   controllers: [AppController],
   providers: [AppService],

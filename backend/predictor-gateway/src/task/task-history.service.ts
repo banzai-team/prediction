@@ -22,7 +22,22 @@ export class TaskHistoryService {
         return taskHistory;
     }
 
-    async patchTaskHistory() {
+    /**
+     * 
+     * @param taskId numeric id of the task
+     */
+    public async getTaskHistoryByTaskId(taskId: number): Promise< TaskHistory[]> {
+        const task = await this.taskService.getTaskById(taskId);
+        const results = await this.taskHistoryRepository.find({
+            where: {
+                objectKey: task.objectKey,
+                taskTypeCode: task.taskTypeCode
+            }
+        });
+        return results;
+    }
+
+    public async patchTaskHistory() {
 
     }
 

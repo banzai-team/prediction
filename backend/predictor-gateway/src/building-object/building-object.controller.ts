@@ -1,7 +1,6 @@
 import { Controller, Get, Param, ParseIntPipe, Query, UsePipes } from '@nestjs/common';
 import { BuildingObjectService } from './building-object.service';
 import { BuildingObjectViewDto } from './buidling-object.dto';
-import { TaskTypeViewDto, TaskViewDto } from 'src/task/task.dto';
 import { Page, Pageable, PageableAndSortable } from 'src/common/common.interface';
 import { BuildingObject } from './buidling-object.entity';
 import { PageableValidationPipe } from 'src/common/common.pipe';
@@ -19,7 +18,6 @@ export class BuildingObjectController {
     @Get('')
     @UsePipes(PageableValidationPipe)
     async getBuildingObjectPage(@Query() pageable: PageableAndSortable): Promise<Page<BuildingObjectViewDto>> {
-        //console.log(pageable)
         if (pageable.offset === undefined) pageable.offset = 0;
         if (pageable.size === undefined) pageable.size = 10;
         const page = await this.buildingObjectService.getBuildingObjectsPageWithRelations(pageable);
@@ -28,12 +26,13 @@ export class BuildingObjectController {
     }
 
 
-    private mapToDtoWithRelations(bo: BuildingObject) {
+    private mapToDtoWithRelations(bo: BuildingObject): BuildingObjectViewDto {
         return {
             objKey: bo.objKey,
             tasks: bo.tasks ? bo.tasks.map(t => {
                 const taskType = t.taskType;
                 return {
+                    id: t.id,
                     taskType: { code: taskType.code, name: taskType.name, isCritical: taskType.isCritical},
                     plannedStart: t.plannedStart,
                     plannedEnd: t.plannedEnd

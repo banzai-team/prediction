@@ -12,7 +12,6 @@ import { plainToClass } from 'class-transformer';
 export class TaskService {
     constructor(
         @InjectRepository(TaskType) private readonly taskTypeRepository: Repository<TaskType>,
-        @InjectRepository(TaskHistory) private readonly taskHistoryRepository: Repository<TaskHistory>,
         @InjectRepository(Task) private readonly taskRepository: Repository<Task>,
         private readonly taskTypeService: TaskTypeService,
         private readonly buildingObjectService: BuildingObjectService
@@ -35,6 +34,10 @@ export class TaskService {
         const task = await this.taskRepository.findOneBy({ id });
         if (!task) throw new TaskNotFoundException("Task not found", id);
         return task;
+    }
+
+    public async getTasksByObjectKey(objectKey: string): Promise<Task[]> {
+        return await this.taskRepository.find({where: {objectKey}, relations: ['taskType']});
     }
 
     public async getTaskByObjectKeyTaskType (objectKey: string, taskTypeCode: string) {
