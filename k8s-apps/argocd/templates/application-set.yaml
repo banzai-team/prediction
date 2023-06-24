@@ -9,7 +9,7 @@ spec:
         repoURL: {{ .Values.gitRepo }}
         revision: HEAD
         directories:
-          - path: "k8s-apps"
+          - path: "k8s-apps/*"
   template:
     metadata:
       name: '{{print "{{path.basename}}"}}'
