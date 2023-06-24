@@ -24,8 +24,8 @@ spec:
         - name: run-migrations
           envFrom:
             - configMapRef:
-                name: rmrk-evm-indexer
-          image: {{.Values.indexer.image.name}}:{{.Values.indexer.image.tag}}
+                name: banzai-predictor-gateway
+          image: {{.Values.image.name}}:{{.Values.image.tag}}
           command:
             - "npm"
             - "run"
