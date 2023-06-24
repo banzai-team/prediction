@@ -1,14 +1,14 @@
 import React from 'react';
 import { Avatar, Button, Flex, Image, Link, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
 
 import { ROUTES } from "../views/Router";
+import {useAuthContext} from '../context/AuthContext';
 
 const Navbar: React.FC<{children?: any}> = ({ children }) => {
     // TODO: add endpoint
-    const navigate = useNavigate();
+    const {setIsAuth} = useAuthContext();
 
-    const Logout = () => navigate(ROUTES.LOGIN);
+    const Logout = () => setIsAuth(false);
     return (
         <Flex
             zIndex={10}

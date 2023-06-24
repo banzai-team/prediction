@@ -17,6 +17,7 @@ import {useFormik} from "formik";
 import * as Yup from "yup";
 import {useNavigate} from "react-router-dom";
 import {ROUTES} from "./Router";
+import {useAuthContext} from '../context/AuthContext';
 
 const validationSchema = Yup.object({
     login: Yup.string().required("required"),
@@ -24,6 +25,8 @@ const validationSchema = Yup.object({
 });
 
 const LoginPage: React.FC<{}> = () => {
+    const {setIsAuth} = useAuthContext();
+    
     const navigate = useNavigate();
     const formik = useFormik<{
         login: string,
@@ -55,7 +58,7 @@ const LoginPage: React.FC<{}> = () => {
                 Sign in
             </Text>
 
-            <form onSubmit={formik.handleSubmit} style={{ width: "100%" }}>
+            <form onSubmit={() => setIsAuth(true)} style={{ width: "100%" }}>
                 <FormControl>
                     <FormLabel>Username*</FormLabel>
                     <InputGroup mb={5}>
