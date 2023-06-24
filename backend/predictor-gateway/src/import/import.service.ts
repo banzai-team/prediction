@@ -110,13 +110,16 @@ export class ImportService {
                 else {
                     console.warn('Row has no obj_key value. Ignoring');
                 }
-                //await this.submitRowToQueue(row);
             }
             await this.buildingObjectService.batchInsert(createBuildingObjects);
             await this.taskTypeService.batchInsert(createTaskTypes);
             await this.taskService.batchUpsert([...taskMap.values()]);
             await this.taskHisoryService.batchInsert([...historyMap.values()]);
-            
+            try {
+                await this.submitRowToQueue(batch);
+            } catch(e) {
+                console.error(e);
+            }
         } catch(e) {
             console.error(e);
         }
@@ -140,17 +143,23 @@ export class ImportService {
         
     }
 
-    private async submitRowToQueue(row: any) {
+    private async submitRowToQueue(rows: Array<any>) {
         // submit row to queue
         console.log('Submitting task for queue');
-        await this.predictorService.submitTaskToQueue({
-            obj_key: row[keys.objKey],
-            obj_prg: row['obj_prg'],
-            task_code: row[keys.taskCode],
-            planStart: row['ДатаНачалаЗадачи'],
-            planEnd: row['ДатаОкончанияЗадачи'],
-            actualStart: row['ДатаначалаБП0'],
-            progress: row['ПроцентЗавершенияЗадачи']
-        });
+        await Promise.all(rows.map((row) => {
+            return new Promise((res, rej) => {
+                this.predictorService.submitTaskToQueue({
+                    obj_key: row[keys.objKey],
+                    obj_prg: row['obj_prg'],
+                    task_code: row[keys.taskCode],
+                    planStart: row['ДатаНачалаЗадачи'],
+                    planEnd: row['ДатаОкончанияЗадачи'],
+                    actualStart: row['ДатаначалаБП0'],
+                    progress: row['ПроцентЗавершенияЗадачи']
+                }).then(res)
+                .catch(rej);
+            });
+        }))
+        console.log('Submitting tasks for queue');
     }
 }
