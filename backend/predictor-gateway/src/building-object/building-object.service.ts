@@ -33,7 +33,7 @@ export class BuildingObjectService {
             order: {
                 objKey: pageable.desc ? 'DESC' : 'ASC'
             },
-            relations: ['tasks', 'tasks.taskType']});
+            relations: ['tasks', 'tasks.taskType', 'taskHistories']});
         console.log(result);
         return {
             content: result,
