@@ -37,16 +37,36 @@ export class Task {
     @JoinColumn({name: 'task_type_code'})
     taskType: TaskType;
 
-    @OneToMany(type => TaskHistory, taskHistory => taskHistory.task)
-    taskHistory: TaskHistory[];
+    // @OneToMany(type => TaskHistory, taskHistory => taskHistory.task, {
+    //     onDelete: 'CASCADE',
+    //     onUpdate: 'CASCADE',
+    //     cascade: ["insert", "remove"],
+    //     orphanedRowAction: "delete"
+    // })
+    // taskHistory: TaskHistory[];
 }
 
 
 @Entity('task_history')
 export class TaskHistory {
     
-    @PrimaryGeneratedColumn('identity')
-    id: number;
+    @PrimaryColumn({
+        name: 'obj_key',
+        type: 'varchar'
+    })
+    objectKey: number;
+
+    @PrimaryColumn({
+        name: 'task_type_code',
+        type: 'varchar'
+    })
+    taskTypeCode: number;
+
+    @PrimaryColumn({
+        name: 'report_date',
+        type: 'timestamp with time zone'
+    })
+    reportDate: number;
 
     @Column({name: 'doc_start', type: 'timestamp with time zone'})
     documentStart: Date;
@@ -54,7 +74,9 @@ export class TaskHistory {
     @Column({name: 'doc_end', type: 'timestamp with time zone'})
     documentEnd: Date;
 
-    @ManyToOne(type => Task, task => task.taskHistory)
-    @JoinColumn({name: 'task_id'})
-    task: Task;
+    @Column({name: 'progress', type: 'int2'})
+    progress: number;
+    // @ManyToOne(type => Task, task => task.taskHistory)
+    // @JoinColumn({name: 'task_id'})
+    // task: Task;
 }
