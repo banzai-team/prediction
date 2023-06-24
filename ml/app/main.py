@@ -18,7 +18,6 @@ data_proc = src.data_processor.DataProcessor()
 X = data_proc.preprocess(fit_transform, add_pca_feats=True, one_hot_encode=True)
 
 pr = src.processor.Processor(data_proc, MODEL_CATBOOST_PATH)
-print(os.listdir('./'))
 
 
 class Item(BaseModel):
@@ -44,4 +43,5 @@ def read_item(item: Item):
                               plan_end_date=item.plan_end_date,
                               real_start_date=item.real_start_date)
     predict = pr.predict(sample)[0]
+    logging.info(f'Predict ready with ofset {predict}')
     return {'late_days': predict}
