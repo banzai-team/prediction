@@ -21,7 +21,7 @@ export class TaskService {
     public async createTask (taskCreateDto: TaskCreateDto): Promise<TaskType> | never {
         const task = new Task();
         const taskType = await this.taskTypeService.getTaskTypeByCode(taskCreateDto.taskTypeCode);
-        const buildingObject = await this.buildingObjectService.getBuildingObjectByKey(taskCreateDto.taskBuildingObjectKey);
+        const buildingObject = await this.buildingObjectService.getBuildingObjectByKeyWithRelations(taskCreateDto.taskBuildingObjectKey);
         task.taskType = taskType;
         task.buildingObject = buildingObject;
         task.plannedStart = taskCreateDto.plannedStart;
@@ -42,5 +42,9 @@ export class TaskService {
             .into(Task)
             .values(batch)
             .execute();
+    }
+
+    public async batchUpsert() {
+
     }
 }

@@ -5,6 +5,7 @@ import { DataSource, Repository } from 'typeorm';
 import { BuildingObjectNotFound } from './building-object.exception';
 import { BuildingObjectCreateDto } from './buidling-object.dto';
 import { plainToClass } from 'class-transformer';
+import { Page, Pageable, PageableAndSortable } from 'src/common/common.interface';
 
 @Injectable()
 export class BuildingObjectService {
@@ -14,14 +15,27 @@ export class BuildingObjectService {
     async createBuildingObject(createDto: BuildingObjectCreateDto) {
         const buildingObject = plainToClass(BuildingObject, createDto);
         await this.buildingObjectRepository.save(buildingObject);
-        console.log('saved bo');
         return buildingObject;
     }
 
-    async getBuildingObjectByKey (objKey:string) {
-        const buildingObject = await this.buildingObjectRepository.findOneBy({ objKey });
+    async getBuildingObjectByKeyWithRelations (objKey:string) {
+        const buildingObject = await this.buildingObjectRepository.findOne({ where: { objKey },
+            relations: ['tasks', 'tasks.taskType']});
         if (!buildingObject) throw new BuildingObjectNotFound('Object not found', objKey);
+        console.log(buildingObject.tasks);
         return buildingObject;
+    }
+
+    async getBuildingObjectsPageWithRelations(pageable: Pageable): Promise<Page<BuildingObject>>  {
+        const [result, total] = await this.buildingObjectRepository.findAndCount({
+            take: pageable.size,
+            skip: pageable.offset,
+            relations: ['tasks', 'tasks.taskType']});
+        return {
+            content: result,
+            size: result.length,
+            total
+        };        
     }
 
     async existsBuildingObjectByKey(objKey:string): Promise<boolean> {

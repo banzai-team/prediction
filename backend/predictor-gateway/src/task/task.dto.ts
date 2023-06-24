@@ -47,3 +47,15 @@ export class TaskCreateDto {
     @IsDateString()
     plannedEnd: Date;
 }
+
+export interface TaskTypeViewDto {
+    code: string;
+    name: string;
+    isCritical: boolean;
+}
+
+export interface TaskViewDto {
+    taskType: TaskTypeViewDto;
+    plannedStart: Date;
+    plannedEnd: Date;
+}
