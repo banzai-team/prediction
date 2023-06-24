@@ -22,6 +22,14 @@ export class TaskTypeService {
         return taskType;
     }
 
+    public async fetchTaskTypeByCode(code: string): Promise<TaskType> | never {
+        return await this.taskTypeRepository.findOneBy({ code });
+    }
+
+    public async updateTaskType(taskType: TaskType) {
+        return await this.taskTypeRepository.save(taskType);
+    }
+
     public async getUniqueTaskTypeCodes(): Promise<{code: string}[]> {
         return await this.taskTypeRepository.createQueryBuilder()
         .select(['code'])

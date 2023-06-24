@@ -44,7 +44,20 @@ export class ImportController {
             },
           }),
     }))
-    async uploadCritialTaskFile() {
-
+    async uploadCritialTaskFile(@UploadedFiles(
+        new ParseFilePipeBuilder()
+            .build({
+                errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+        })) files: Array<Express.Multer.File>) {
+            try {
+                await this.importService.importCriticalTaskFromDocuments(files);
+            } catch (e) {
+                if (e instanceof UnparseableDocument) {
+                    console.error(e.stack);
+                    throw new InternalServerErrorException('Error parsing document');
+                } else {
+                    throw e;
+                }
+            }
     }
 }
