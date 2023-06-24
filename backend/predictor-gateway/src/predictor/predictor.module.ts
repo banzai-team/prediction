@@ -13,7 +13,12 @@ import { config } from "../config/configuration";
               name: 'PREDICTION_QUEUE',
               transport: Transport.RMQ,
               options: {
-                urls: [`amqp://${config().rabbitmq.host}:${config().rabbitmq.port}`],
+                urls: [{
+                  protocol: "amqp",
+                  hostname: config().rabbitmq.host,
+                  port: config().rabbitmq.port,
+                  username: config().rabbitmq.username,
+                }],
                 queue: 'prediction',
                 queueOptions: {
                   durable: false

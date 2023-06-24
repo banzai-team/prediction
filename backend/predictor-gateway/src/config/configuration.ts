@@ -19,6 +19,7 @@ const dbConfig = (): DataSourceOptions => ({
 const rabbitmq = () => ({
   host: process.env.RABBIT_HOST,
   port: process.env.RABBIT_PORT ? parseInt(process.env.RABBIT_PORT, 10) : 15672,
+  username: process.env.USERNAME,
 });
 
 export const config = () => ({

@@ -86,6 +86,7 @@ config:
   PORT: 80
   RABBIT_HOST: rabbitmq
   RABBIT_PORT: 5672
+  RABBIT_USERNAME: user
 
 nodeSelector:
   target: apps
