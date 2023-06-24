@@ -13,6 +13,7 @@ const ObjectPage: React.FC = () => {
     const { id } = useParams();
 
     const { data, isLoading } = useQuery([id, "tasks"], () => getTasks(id));
+    console.log(data, isLoading);
     
     const tasks: any[] = [
         {
