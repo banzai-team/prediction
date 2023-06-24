@@ -18,12 +18,13 @@ services:
       - sleep 1; npm run migration:run; node main.js
     environment:
       REDIS_HOST: redis
-      REDIS_PORT: 6379
+      REDIS_PORT: "6379"
       DB_NAME: building_predictor
       DB_HOST: postgres
-      DB_PORT: 5432
+      DB_PORT: "5432"
       DB_USERNAME: postgres
       DB_PASSWORD: postgres
+
     depends_on:
       - postgres
     image: banzai/predictor-gateway:v0.0.1
