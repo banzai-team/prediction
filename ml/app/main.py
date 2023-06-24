@@ -44,4 +44,4 @@ def read_item(item: Item):
                               real_start_date=item.real_start_date)
     predict = pr.predict(sample)[0]
     logging.info(f'Predict ready with ofset {predict}')
-    return {'late_days': predict}
+    return {'late_days': int(predict)}
