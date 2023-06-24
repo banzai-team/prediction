@@ -7,16 +7,17 @@ import MainTable from '../components/MainTable';
 
 const DashboardTableView: React.FC<{objects: any}> = ({ objects }) => {
     const navigate = useNavigate();
+    console.log(objects.content);
 
     const onRowClick = (row: Row<any>): void => {
-        navigate(`/object/${row.original.objectId}`);
+        navigate(`/object/${row.original.objKey}`);
     };
 
     const columns = React.useMemo<ColumnDef<any>[]>(
         () => [
             {
-                accessorKey: 'objectId',
-                header: 'Object Id',
+                accessorKey: 'objKey',
+                header: 'Key',
                 cell: ({ getValue }: any) => (
                     <Text
                         fontWeight="bold"
@@ -27,59 +28,20 @@ const DashboardTableView: React.FC<{objects: any}> = ({ objects }) => {
                 footer: props => props.column.id,
             },
             {
-                accessorKey: 'time',
-                header: 'Time',
-                cell: info => info.getValue(),
-                footer: props => props.column.id,
-            },
-            {
-                accessorKey: 'taskCount',
+                accessorKey: 'tasks',
                 header: 'Task Count',
-                cell: info => info.getValue(),
+                cell: ({ getValue }: any) => getValue().length || 0,
                 footer: props => props.column.id,
             },
-            {
-                accessorKey: 'progress',
-                header: 'Progress',
-                cell: info => info.getValue(),
-                footer: props => props.column.id,
-            },
+            // {
+            //     accessorKey: 'progress',
+            //     header: 'Progress',
+            //     cell: info => info.getValue(),
+            //     footer: props => props.column.id,
+            // },
         ], []);
 
-    const data = [
-        {
-            objectId: "1",
-            time: "21232134214",
-            taskCount: 5,
-            progress: 30,
-        },
-        {
-            objectId: "1",
-            time: "21232134214",
-            taskCount: 5,
-            progress: 30,
-        },
-        {
-            objectId: "1",
-            time: "21232134214",
-            taskCount: 5,
-            progress: 30,
-        },
-        {
-            objectId: "1",
-            time: "21232134214",
-            taskCount: 5,
-            progress: 30,
-        },
-        {
-            objectId: "1",
-            time: "21232134214",
-            taskCount: 5,
-            progress: 30,
-        },
-    ];
-
-    return <MainTable columns={columns} data={data} onRowClick={onRowClick}/>
+    return <MainTable columns={columns} data={objects.content} onRowClick={onRowClick}/>
 };
 
 export default DashboardTableView;

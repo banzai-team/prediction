@@ -14,10 +14,9 @@ import EmptyPlaceholder from "../components/EmptyPlaceholder";
 const Dashboard: React.FC = () => {
    const navigate = useNavigate();
 
-   const obj = useQuery(["getObjects"], () => getObjects(), {
+   const { data: obj, isLoading } = useQuery(["getObjects"], () => getObjects(), {
       refetchInterval: 5000,
    });
-
 
    const onCreate = () => navigate(ROUTES.CREATE);
    
@@ -36,9 +35,9 @@ const Dashboard: React.FC = () => {
              </Button>
           </Flex>
           {
-             obj.isLoading
+             isLoading
                  ? <Center mt="40px"><Spinner/></Center>
-                     : obj.data
+                     : obj?.data && obj?.data?.content.length
                         ? <DashboardTableView objects={obj.data}/>
                         : (
                             <EmptyPlaceholder>
