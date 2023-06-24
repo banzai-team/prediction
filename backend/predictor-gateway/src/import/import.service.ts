@@ -30,15 +30,15 @@ export class ImportService {
                 buildingObjectCreateDto.objKey = bo['obj_key'];
                 if (!uniqueKeys.has( bo['obj_key'])) {
                     create.push(buildingObjectCreateDto);
+                    uniqueKeys.add(bo['obj_key']);
                 }
             }
             else {
                 console.warn('Row has no obj_key value. Ignoring');
             }
         }
-        console.log('asd');
         await this.buildingObjectService.batchInsert(create);
-        console.log('Completed handleBuildingObjectBatch');
+        console.log('Completed handleBuildingObjectBatch', batch.length);
     }
 
     public importCriticalTaskFromDocuments(files: Array<Express.Multer.File>) {

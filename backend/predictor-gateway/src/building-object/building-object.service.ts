@@ -29,13 +29,13 @@ export class BuildingObjectService {
     }
 
     async batchInsert(createDtos: BuildingObjectCreateDto[]) {
-        console.log('batchInsert start');
+        console.log('batchInsert start', createDtos.length);
         await this.dataSource.createQueryBuilder()
             .insert()
             .into(BuildingObject)
             .values(createDtos.map(d => plainToClass(BuildingObject, d)))
             .execute();
-        console.log('batchInsert complete');
+        console.log('batchInsert complete', createDtos.length);
     }
 
     async getUniqueObjectKeys(): Promise<Array<{obj_key: string}>> {

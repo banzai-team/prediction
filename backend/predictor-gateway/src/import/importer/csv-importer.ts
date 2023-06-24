@@ -9,7 +9,6 @@ import * as csvBatch from 'csv-batch';
 @Injectable()
 export class CsvDocumentImporter implements BatchDocumentImporter {
     private batchSize = 10000;
-    private batch = [];
 
     setBatchSize(size: number) {
         this.batchSize = size;
@@ -17,18 +16,21 @@ export class CsvDocumentImporter implements BatchDocumentImporter {
 
     async doParse(document: Express.Multer.File, onBatchParsed: (batch: any[]) => Promise<void>): Promise<void> {
         console.log('Prasing .csv');
+        const batchInserts = [];
         await new Promise((res, rej) => {
             csvBatch(fs.createReadStream(`./uploads/${document.originalname}`), {
                 batch: true,
                 batchSize: this.batchSize,
                 batchExecution: async (batch) => {
-                    await onBatchParsed(batch);
+                    batchInserts.push(await onBatchParsed(batch));
                 }
             }).then(results => {
-                console.log(`Processed ${results.totalRecords}`)
+                console.log(`Processed ${results.totalRecords}`);
                 res(true);
               });
+            
         });
+        await Promise.all(batchInserts);
     }
     supports(document: Express.Multer.File): boolean {
         return document.mimetype === mime.lookup('.csv');
