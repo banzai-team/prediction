@@ -2,6 +2,7 @@ import React from 'react';
 import {useNavigate} from 'react-router-dom';
 import { useQuery } from "react-query";
 import { AddIcon } from '@chakra-ui/icons'
+import {FormattedMessage} from 'react-intl';
 
 import {Button, Center, Flex, Link, Spinner} from "@chakra-ui/react";
 import PageTitle from "../components/PageTitle";
@@ -24,14 +25,14 @@ const Dashboard: React.FC = () => {
        <>
           <Flex justifyContent="space-between">
              <PageTitle>
-                Dashboard
+                <FormattedMessage id = "dashboard.title"/>
              </PageTitle>
              <Button
                  size={{ base: "sm", sm: "md" }}
                  leftIcon={<AddIcon />}
                  onClick={onCreate}
              >
-                Add file
+                <FormattedMessage id = "dashboard.addFile"/>
              </Button>
           </Flex>
           {
@@ -42,11 +43,11 @@ const Dashboard: React.FC = () => {
                         : (
                             <EmptyPlaceholder>
                                <>
-                                  Objects list is empty.
+                                  <FormattedMessage id = "dashboard.empty.text"/>
                                   <br/>
-                                  You can add your first data on
+                                  <FormattedMessage id = "dashboard.empty.help"/>
                                   <Link href={ROUTES.CREATE} ml={1} color="gray.400">
-                                     Create Page
+                                     <FormattedMessage id = "dashboard.empty.link"/>
                                   </Link>
                                </>
                             </EmptyPlaceholder>

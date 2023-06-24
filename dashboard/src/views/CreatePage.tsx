@@ -4,6 +4,7 @@ import { useMutation } from "react-query";
 import {Box, Button, Center, Flex, Text, IconButton, Highlight} from "@chakra-ui/react";
 import { AttachmentIcon, CloseIcon } from '@chakra-ui/icons'
 import {useNavigate} from "react-router-dom";
+import {FormattedMessage, useIntl} from 'react-intl';
 
 import { sendModel } from "../domain/api";
 import PageTitle from "../components/PageTitle";
@@ -13,6 +14,7 @@ import {ROUTES} from "./Router";
 
 const CreatePage: React.FC = () => {
     const navigate = useNavigate();
+    const intl = useIntl();
     const send = useMutation(sendModel, {
         onSuccess: (data) => {
             navigate(ROUTES.DASHBOARD);
@@ -39,9 +41,9 @@ const CreatePage: React.FC = () => {
     return (
         <>
             <PageTitle>
-                Add file
+                <FormattedMessage id = "addFile.title"/>
             </PageTitle>
-            <BackButton backRoute={ROUTES.DASHBOARD}>Back to dashboard</BackButton>
+            <BackButton backRoute={ROUTES.DASHBOARD}><FormattedMessage id = "addFile.back"/></BackButton>
             <Center
                 pt="20px"
                 maxW={{ base: "100%", sm: "2xl" }}
@@ -80,7 +82,7 @@ const CreatePage: React.FC = () => {
                                     </Flex>
                                 ) :
                                 <Dropzone
-                                    acceptTypes={{"text/csv": [], "application/*": [".xlsx"]}}
+                                    acceptTypes={{"text/csv": [], "application/*": [".xlsx", ".xls"]}}
                                     onDrop={(acceptedFiles: any[]) => {
                                         acceptedFiles.forEach((file) => {
                                             const reader = new FileReader()
@@ -101,13 +103,13 @@ const CreatePage: React.FC = () => {
                         </Box>
                         <Box flex={1} >
                             <Text>
-                                Add file with object data.
+                                <FormattedMessage id = "addFile.upload.title"/>
                                 <br/>
                                 <Highlight
                                     query={['.csv', '.xlsx']}
                                     styles={{ background: "brand.200", px: 1 }}
                                 >
-                                    You can add only .csv and .xlsx files
+                                    {intl.formatMessage({id: 'addFile.upload.fileFormat'})}
                                 </Highlight>
                             </Text>
                             <Button
@@ -117,7 +119,7 @@ const CreatePage: React.FC = () => {
                                 variant="brand"
                                 isDisabled={!hasFile}
                             >
-                                Submit
+                                <FormattedMessage id = "addFile.submit"/>
                             </Button>
                         </Box>
                     </Flex>

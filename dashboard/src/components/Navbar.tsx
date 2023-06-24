@@ -1,5 +1,6 @@
 import React from 'react';
 import { Avatar, Button, Flex, Image, Link, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import {FormattedMessage} from 'react-intl';
 
 import { ROUTES } from "../views/Router";
 import {useAuthContext} from '../context/AuthContext';
@@ -43,7 +44,7 @@ const Navbar: React.FC<{children?: any}> = ({ children }) => {
                             color="black"
                             onClick={Logout}
                         >
-                            Logout
+                            <FormattedMessage id = "logout"/>
                         </MenuItem>
                     </MenuList>
                 </Menu>

@@ -2,6 +2,7 @@ import {Flex, Text} from '@chakra-ui/react';
 import { useDropzone } from 'react-dropzone';
 import React from "react";
 import {DownloadIcon} from "@chakra-ui/icons";
+import {FormattedMessage} from 'react-intl';
 
 const Dropzone: React.FC<{ onDrop: any, acceptTypes?: any }> = props => {
     const { onDrop } = props;
@@ -35,9 +36,9 @@ const Dropzone: React.FC<{ onDrop: any, acceptTypes?: any }> = props => {
             <DownloadIcon  w='60px' h='60px' color="brand.900"/>
             <Text fontSize='md' fontWeight='500' pt={{ base: "10px", sm: "40px"}} textAlign="center">
                 {isDragActive ? (
-                    "Drop the file here ..."
+                    <FormattedMessage id = "dropzone.drop"/>
                 ) : (
-                    "Drag and drop or click here"
+                    <FormattedMessage id = "dropzone.title"/>
                 )}
             </Text>
         </Flex>
