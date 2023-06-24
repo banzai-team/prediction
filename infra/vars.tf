@@ -12,3 +12,8 @@ variable "folder_id" {
   type    = string
   default = "b1gvf36n32env2iujs3l"
 }
+
+variable "environment" {
+  type = string
+  default = "production"
+}

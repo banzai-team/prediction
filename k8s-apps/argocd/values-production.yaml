@@ -1,30 +1,33 @@
+gitRepo: git@github.com:banzai-team/prediction.git
+env: production
+
 argo-cd:
   configs:
     cm:
       admin.enabled: true
-      url: http://argocd.zultee.ru
+      url: http://argocd.ewolke.io
     params:
       server.insecure: true
-    rbac:
-      policy.default: role:org-admin
-      policy.csv: |
-        p, role:org-admin, applications, *, */*, allow
-        p, role:org-admin, certificates, *, *, allow
-        p, role:org-admin, clusters, *, *, allow
-        p, role:org-admin, repositories, *, *, allow
-        p, role:org-admin, projects, *, *, allow
-        p, role:org-admin, accounts, update, *, allow
-        p, role:org-admin, gpgkeys, *, *, allow
-        
-        p, role:org-dev, applications, *, */*, allow
-        p, role:org-dev, certificates, create, *, allow
-        p, role:org-dev, certificates, update, *, allow
-        p, role:org-dev, repositories, create, *, allow
-        p, role:org-dev, repositories, update, *, allow
-        p, role:org-dev, repositories, delete, *, allow
-        p, role:org-dev, projects, create, *, allow
-        p, role:org-dev, projects, update, *, allow
-        p, role:org-dev, gpgkeys, create, *, allow
+#    rbac:
+#      policy.default: role:org-admin
+#      policy.csv: |
+#        p, role:org-admin, applications, *, */*, allow
+#        p, role:org-admin, certificates, *, *, allow
+#        p, role:org-admin, clusters, *, *, allow
+#        p, role:org-admin, repositories, *, *, allow
+#        p, role:org-admin, projects, *, *, allow
+#        p, role:org-admin, accounts, update, *, allow
+#        p, role:org-admin, gpgkeys, *, *, allow
+#
+#        p, role:org-dev, applications, *, */*, allow
+#        p, role:org-dev, certificates, create, *, allow
+#        p, role:org-dev, certificates, update, *, allow
+#        p, role:org-dev, repositories, create, *, allow
+#        p, role:org-dev, repositories, update, *, allow
+#        p, role:org-dev, repositories, delete, *, allow
+#        p, role:org-dev, projects, create, *, allow
+#        p, role:org-dev, projects, update, *, allow
+#        p, role:org-dev, gpgkeys, create, *, allow
 
     repositories:
 #      yandex:
@@ -35,24 +38,10 @@ argo-cd:
 #        url: cr.yandex
 #        username: json_key
 #  helm pull oci://cr.yandex/yc-marketplace/yandex-cloud/yc-alb-ingress/yc-alb-ingress-controller-chart --version v0.1.13
-  server:
-    ingress:
-      enabled: true
-      annotations:
-        kubernetes.io/ingress.class: nginx
-      hosts:
-        - argocd.zultee.ru
-
-env: production
-createApps: true
-
-repoExternalSecret:
-  lockboxId: e6qlgnh2n3kg4u2jm388
-  name: sshPrivateKey
-
-secretStoreProvider:
-  yandexlockbox:
-    auth:
-      authorizedKeySecretRef:
-        name: yc-auth
-        key: authorized-key
+#  server:
+#    ingress:
+#      enabled: true
+#      annotations:
+#        kubernetes.io/ingress.class: nginx
+#      hosts:
+#        - argocd.ewolke.io
