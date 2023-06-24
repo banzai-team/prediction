@@ -127,14 +127,31 @@ export class ImportService {
         console.log('Completed handleBuildingObjectBatch', batch.length);
     }
 
-    private parseDate(value: string): Date {
-        var parts = value.split("-");
+    parseDate(value: string): Date {
+        if (!value) return;
+        if (value.indexOf('/') >= 0) {
+            return this.parseDateSlash(value);
+        } else if (value.indexOf('.') >= 0) {
+            return this.parseDateDot(value);
+        } if (value.indexOf('-') >= 0) {
+            return this.parseDateDash(value);
+        }
+    }
+
+    parseDateSlash(value: string): Date {
+        var parts = value.split("/");
+        let dateFormat =  new Date(parseInt(parts[2]), parseInt(parts[0]) - 1, parseInt(parts[1]));
+        return moment(dateFormat).utcOffset(0, true).toDate();
+    }
+
+    parseDateDot(value: string): Date {
+        var parts = value.split(".");
         let dateFormat =  new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
         return moment(dateFormat).utcOffset(0, true).toDate();
     }
 
-    private parseDateDot(value:string): Date {
-        var parts = value.split(".");
+    private parseDateDash(value: string): Date {
+        var parts = value.split("-");
         let dateFormat =  new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
         return moment(dateFormat).utcOffset(0, true).toDate();
     }
