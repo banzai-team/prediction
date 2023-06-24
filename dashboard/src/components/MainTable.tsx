@@ -8,14 +8,14 @@ import {
 } from '@tanstack/react-table';
 
 import {Table, TableContainer, Thead, Tr, Th, Td, Tbody, Box} from '@chakra-ui/react';
-import {BuildingObjectViewDto} from '../objects/buildingObject';
 
 interface Props {
-    columns: ColumnDef<BuildingObjectViewDto>[];
-    data: BuildingObjectViewDto[];
-    onRowClick?: (row: Row<BuildingObjectViewDto>) => void;
+    columns: ColumnDef<any>[];
+    data: any;
+    onRowClick?: (row: Row<any>) => void;
 }
 
+// TODO: types
 const MainTable: React.FC<Props> = ({columns, data, onRowClick}) => {
     const table = useReactTable({
         data,
