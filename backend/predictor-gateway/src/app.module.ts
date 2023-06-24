@@ -10,6 +10,8 @@ import { DataSourceOptions } from "typeorm";
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthModule } from "./auth/auth.module";
 import { HealthModule } from "./health/health.module";
+import { PredictorModule } from './predictor/predictor.module';
+import { CommonModule } from './common/common.module';
 
 
 @Module({
@@ -28,6 +30,8 @@ import { HealthModule } from "./health/health.module";
     BuildingObjectModule,
     TaskModule,
     HealthModule,
+    PredictorModule,
+    CommonModule,
   ],
   controllers: [AppController],
   providers: [AppService],

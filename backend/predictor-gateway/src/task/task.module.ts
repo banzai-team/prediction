@@ -11,6 +11,6 @@ import { TaskHistoryService } from './task-history.service';
     imports: [TypeOrmModule.forFeature([Task, TaskType, TaskHistory]), BuildingObjectModule],
     providers: [TaskService, TaskTypeService, TaskHistoryService],
     controllers: [TaskController],
-    exports: [TaskService, TaskTypeService]
+    exports: [TaskService, TaskTypeService, TaskHistoryService]
 })
 export class TaskModule {}
