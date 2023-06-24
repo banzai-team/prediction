@@ -1,8 +1,8 @@
 name: Backend CI workflow
 on:
   push:
-#    paths:
-#      - 'backend/**'
+    paths:
+      - 'backend/**'
     branches:
       - main
   pull_request:

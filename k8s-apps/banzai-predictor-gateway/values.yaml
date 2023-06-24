@@ -80,3 +80,27 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+config:
+  DB_HOST: banzai-predictor-gateway-postgresql
+  DB_NAME: building_predictor
+  DB_PORT: "5432"
+  DB_USERNAME: app
+  DB_PASSWORD: password
+
+postgresql:
+  primary:
+    nodeSelector:
+      target: apps
+    tolerations:
+      - key: "target"
+        operator: "Equal"
+        value: "apps"
+        effect: "NoSchedule"
+    persistence:
+      enabled: true
+      size: 30Gi
+  auth:
+    database: building_predictor
+    password: "password"
+    username: "app"
