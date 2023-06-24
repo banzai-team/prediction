@@ -6,13 +6,18 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Task } from './handler.entity';
 
+const predictorConfig = (): {host: string, port: number} => ({
+    host: process.env.PREDICTOR_HOST,
+    port: Number(process.env.PREDICTOR_PORT)
+  });
+
 @Injectable()
 export class HandlerService {
     constructor(private readonly httpService: HttpService,
         @InjectRepository(Task) private readonly taskRepository: Repository<Task>) {};
     
     public async doPredict(predictorRequest: PredictorRequest): Promise<void> {
-        console.log(`Requesting predictor on: http://${config().predictor.host}:${config().predictor.port}/predict`);
+        console.log(`Requesting predictor on: http://${predictorConfig().host}:${predictorConfig().port}/predict`);
         const json = {
             obj_prg: predictorRequest.obj_prg,
             obj_key: predictorRequest.obj_key,
@@ -22,7 +27,7 @@ export class HandlerService {
             'ДатаОкончанияЗадачи': predictorRequest.planEnd,
             'ДатаначалаБП0': predictorRequest.actualStart ? predictorRequest.actualStart : predictorRequest.planStart
         }
-        const resp = await firstValueFrom(this.httpService.post(`http://${config().predictor.host}:${config().predictor.port}/predict`, json));
+        const resp = await firstValueFrom(this.httpService.post(`http://${predictorConfig().host}:${predictorConfig().port}/predict`, json));
         if(resp.status >= 200 && resp.status < 300) {  
             await this.updateTask({
                 objectKey: predictorRequest.obj_key,

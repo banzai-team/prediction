@@ -7,6 +7,7 @@ import { TaskCreateDto, TaskHistoryCreateDto, TaskTypeCreateDto } from 'src/task
 import * as moment from 'moment';
 import { TaskService } from 'src/task/task.service';
 import { TaskHistoryService } from 'src/task/task-history.service';
+import { PredictorService } from 'src/predictor/predictor.service';
 
 const keys = {
     objKey: 'obj_key',
@@ -28,7 +29,8 @@ export class ImportService {
         private readonly buildingObjectService: BuildingObjectService,
         private readonly taskTypeService: TaskTypeService,
         private readonly taskService: TaskService,
-        private readonly taskHisoryService: TaskHistoryService
+        private readonly taskHisoryService: TaskHistoryService,
+        private readonly predictorService: PredictorService
         ) {
         }
 
@@ -81,19 +83,21 @@ export class ImportService {
                             taskMap.set(row[keys.objKey] + '-' + row[keys.taskCode], taskCreateDto);
                         }
     
-                        if (row[keys.reportDate]) {
-                            const reportDate = this.parseDateDot(row[keys.reportDate]);
-                            const historyCreteDto = historyMap.get(row[keys.objKey] + '-' + row[keys.taskCode] + '-' + row[keys.reportDate]);
+                        if (row[keys.documentStart]) {
+                            const historyCreteDto = historyMap.get(row[keys.objKey] + '-' + row[keys.taskCode] + '-' + 
+                            row[keys.documentStart] + row[keys.documentEnd]);
                             if (!historyCreteDto) {
                                 const historyCreateDto = new TaskHistoryCreateDto();
                                 historyCreateDto.objectKey = row[keys.objKey];
                                 historyCreateDto.taskTypeCode = row[keys.taskCode];
-                                historyCreateDto.reportDate = reportDate;
-                                if (row[keys.plannedStart]) {
-                                    historyCreateDto.documentStart = this.parseDate(row[keys.plannedStart]);
+                                if (row[keys.reportDate]) {
+                                    historyCreateDto.reportDate = this.parseDateDot(row[keys.reportDate]);
                                 }
-                                if (row[keys.plannedEnd]) {
-                                    historyCreateDto.documentEnd = this.parseDate(row[keys.plannedEnd]);
+                                if (row[keys.documentStart]) {
+                                    historyCreateDto.documentStart = this.parseDate(row[keys.documentStart]);
+                                }
+                                if (row[keys.documentEnd]) {
+                                    historyCreateDto.documentEnd = this.parseDate(row[keys.documentEnd]);
                                 }
                                 historyCreateDto.progress = row[keys.progress];
                                 historyMap.set(row[keys.objKey] + '-' + row[keys.taskCode] + '-' + row[keys.reportDate], historyCreateDto);
@@ -106,11 +110,13 @@ export class ImportService {
                 else {
                     console.warn('Row has no obj_key value. Ignoring');
                 }
+                //await this.submitRowToQueue(row);
             }
             await this.buildingObjectService.batchInsert(createBuildingObjects);
             await this.taskTypeService.batchInsert(createTaskTypes);
             await this.taskService.batchUpsert([...taskMap.values()]);
             await this.taskHisoryService.batchInsert([...historyMap.values()]);
+            
         } catch(e) {
             console.error(e);
         }
@@ -132,5 +138,19 @@ export class ImportService {
 
     public importCriticalTaskFromDocuments(files: Array<Express.Multer.File>) {
         
+    }
+
+    private async submitRowToQueue(row: any) {
+        // submit row to queue
+        console.log('Submitting task for queue');
+        await this.predictorService.submitTaskToQueue({
+            obj_key: row[keys.objKey],
+            obj_prg: row['obj_prg'],
+            task_code: row[keys.taskCode],
+            planStart: row['ДатаНачалаЗадачи'],
+            planEnd: row['ДатаОкончанияЗадачи'],
+            actualStart: row['ДатаначалаБП0'],
+            progress: row['ПроцентЗавершенияЗадачи']
+        });
     }
 }
