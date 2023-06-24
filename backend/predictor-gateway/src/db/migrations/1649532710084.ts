@@ -5,7 +5,7 @@ export class Initial1649532710084 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`
-        alter table task alter column offset drop default;
+        alter table task alter column offset_in_days drop default;
         `);
     }
 
