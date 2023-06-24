@@ -40,7 +40,7 @@ const DashboardTableView: React.FC<{objects: any}> = ({ objects }) => {
             //     cell: info => info.getValue(),
             //     footer: props => props.column.id,
             // },
-        ], []);
+        ], [intl]);
 
     return <MainTable columns={columns} data={objects.content} onRowClick={onRowClick}/>
 };
