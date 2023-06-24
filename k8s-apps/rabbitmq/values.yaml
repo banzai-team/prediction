@@ -1,3 +1,13 @@
 #rabbitmq:
 #  auth:
 #
+
+rabbitmq:
+  nodeSelector:
+    target: apps
+
+  tolerations:
+    - key: "target"
+      operator: "Equal"
+      value: "apps"
+      effect: "NoSchedule"
