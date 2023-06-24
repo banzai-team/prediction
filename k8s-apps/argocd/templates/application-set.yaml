@@ -9,11 +9,7 @@ spec:
         repoURL: {{ .Values.gitRepo }}
         revision: HEAD
         directories:
-          - path: "*"
-          - path: scripts
-            exclude: true
-          - path: banzai
-            exclude: true
+          - path: "k8s-apps"
   template:
     metadata:
       name: '{{print "{{path.basename}}"}}'
