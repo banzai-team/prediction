@@ -75,7 +75,7 @@ const CreatePage: React.FC = () => {
                                             reader.onerror = () => console.log('file reading has failed')
                                             reader.onload = () => {
                                                 // Do whatever you want with the file contents
-                                                const binaryStr = reader.result
+                                                //const binaryStr = reader.result
                                                 formik.setFieldValue("files", [file]);
                                             }
                                             reader.readAsArrayBuffer(file)

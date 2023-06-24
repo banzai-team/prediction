@@ -1,4 +1,4 @@
-import {Flex, Text, useColorModeValue} from '@chakra-ui/react';
+import {Flex, Text} from '@chakra-ui/react';
 import { useDropzone } from 'react-dropzone';
 import React from "react";
 import {DownloadIcon} from "@chakra-ui/icons";
