@@ -3,7 +3,7 @@ import {useNavigate} from 'react-router-dom';
 import { useQuery } from "react-query";
 import { AddIcon } from '@chakra-ui/icons'
 
-import {Button, Center, Flex, Spinner} from "@chakra-ui/react";
+import {Button, Center, Flex, Link, Spinner} from "@chakra-ui/react";
 import PageTitle from "../components/PageTitle";
 import {ROUTES} from "./Router";
 import {getObjects} from "../domain/api";
@@ -14,10 +14,9 @@ import EmptyPlaceholder from "../components/EmptyPlaceholder";
 const Dashboard: React.FC = () => {
    const navigate = useNavigate();
 
-   const obj = useQuery(["getObjects"], () => getObjects(), {
+   const { data: obj, isLoading } = useQuery(["getObjects"], () => getObjects(), {
       refetchInterval: 5000,
    });
-
 
    const onCreate = () => navigate(ROUTES.CREATE);
    
@@ -36,11 +35,22 @@ const Dashboard: React.FC = () => {
              </Button>
           </Flex>
           {
-             obj.isLoading
+             isLoading
                  ? <Center mt="40px"><Spinner/></Center>
-                     : obj.data
+                     : obj?.data && obj?.data?.content.length
                         ? <DashboardTableView objects={obj.data}/>
-                        : <EmptyPlaceholder>Objects list is empty</EmptyPlaceholder>
+                        : (
+                            <EmptyPlaceholder>
+                               <>
+                                  Objects list is empty.
+                                  <br/>
+                                  You can add your first data on
+                                  <Link href={ROUTES.CREATE} ml={1} color="gray.400">
+                                     Create Page
+                                  </Link>
+                               </>
+                            </EmptyPlaceholder>
+                        )
           }
        </>
    );

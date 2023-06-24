@@ -6,9 +6,10 @@ import { CsvDocumentImporter } from './importer/csv-importer';
 import { ExcelDocumentImporter } from './importer/excel-importer';
 import { BuildingObjectModule } from 'src/building-object/building-object.module';
 import { TaskModule } from 'src/task/task.module';
+import { PredictorModule } from 'src/predictor/predictor.module';
 
 @Module({
-  imports: [BuildingObjectModule, TaskModule],
+  imports: [BuildingObjectModule, TaskModule, PredictorModule],
   controllers: [ImportController],
   providers: [ImportService, ImporterProvider, CsvDocumentImporter, ExcelDocumentImporter]
 })

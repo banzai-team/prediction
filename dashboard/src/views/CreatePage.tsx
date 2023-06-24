@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFormik } from "formik";
 import { useMutation } from "react-query";
-import {Box, Button, Center, Flex, Text, IconButton} from "@chakra-ui/react";
+import {Box, Button, Center, Flex, Text, IconButton, Highlight} from "@chakra-ui/react";
 import { AttachmentIcon, CloseIcon } from '@chakra-ui/icons'
 import {useNavigate} from "react-router-dom";
 
@@ -42,10 +42,14 @@ const CreatePage: React.FC = () => {
                 Add file
             </PageTitle>
             <BackButton backRoute={ROUTES.DASHBOARD}>Back to dashboard</BackButton>
-            <Center pt="20px">
-                <form onSubmit={formik.handleSubmit}>
+            <Center
+                pt="20px"
+                maxW={{ base: "100%", sm: "2xl" }}
+                m="auto"
+            >
+                <form onSubmit={formik.handleSubmit} style={{ width: "100%" }}>
                     <Flex
-                        maxW={{ base: "100%", sm: "2xl" }}
+                        width="100%"
                         flexDirection={{ base: "column", sm: "row" }}
 
                     >
@@ -76,6 +80,7 @@ const CreatePage: React.FC = () => {
                                     </Flex>
                                 ) :
                                 <Dropzone
+                                    acceptTypes={{"text/csv": [], "application/*": [".xlsx"]}}
                                     onDrop={(acceptedFiles: any[]) => {
                                         acceptedFiles.forEach((file) => {
                                             const reader = new FileReader()
@@ -96,8 +101,14 @@ const CreatePage: React.FC = () => {
                         </Box>
                         <Box flex={1} >
                             <Text>
-                                {/*TODO: fix text*/}
-                                Lorem ipsum dolor sit amet, at eos solum periculis, iusto aliquip complectitur est ad.
+                                Add file with object data.
+                                <br/>
+                                <Highlight
+                                    query={['.csv', '.xlsx']}
+                                    styles={{ background: "brand.200", px: 1 }}
+                                >
+                                    You can add only .csv and .xlsx files
+                                </Highlight>
                             </Text>
                             <Button
                                 isLoading={send.isLoading}

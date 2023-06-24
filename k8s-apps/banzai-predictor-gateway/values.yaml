@@ -59,10 +59,6 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
 
-nodeSelector: {}
-
-tolerations: []
-
 affinity: {}
 
 config:
@@ -72,8 +68,6 @@ config:
   DB_USERNAME: app
   DB_PASSWORD: password
   PORT: 80
-  REDIS_HOST: "redis-master.redis"
-  REDIS_PASS: "RTKIOQcibQ"
 
 postgresql:
   primary:
@@ -107,3 +101,13 @@ ingress:
       paths:
         - path: /
           pathType: Prefix
+
+
+nodeSelector:
+  target: apps
+
+tolerations:
+  - key: "target"
+    operator: "Equal"
+    value: "apps"
+    effect: "NoSchedule"
