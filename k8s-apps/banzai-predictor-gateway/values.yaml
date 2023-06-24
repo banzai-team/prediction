@@ -72,8 +72,6 @@ config:
   DB_USERNAME: app
   DB_PASSWORD: password
   PORT: 80
-  REDIS_HOST: "redis-master.redis"
-  REDIS_PASS: "RTKIOQcibQ"
 
 postgresql:
   primary:
