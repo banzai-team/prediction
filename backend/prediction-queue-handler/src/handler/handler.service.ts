@@ -5,6 +5,7 @@ import { PredictorRequest, PredictorResponse, UpdateTaskDto } from './handler.dt
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Task } from './handler.entity';
+import moment from 'moment';
 
 const predictorConfig = (): {host: string, port: number} => ({
     host: process.env.PREDICTOR_HOST,
@@ -16,16 +17,17 @@ export class HandlerService {
     constructor(private readonly httpService: HttpService,
         @InjectRepository(Task) private readonly taskRepository: Repository<Task>) {};
     
+        // Дата через - год месяц день
     public async doPredict(predictorRequest: PredictorRequest): Promise<void> {
         console.log(`Requesting predictor on: http://${predictorConfig().host}:${predictorConfig().port}/predict`);
         const json = {
             obj_prg: predictorRequest.obj_prg,
             obj_key: predictorRequest.obj_key,
-            'Кодзадачи': predictorRequest.task_code,
-            'ПроцентЗавершенияЗадачи': predictorRequest.progress,
-            'ДатаНачалаЗадачи': predictorRequest.planStart,
-            'ДатаОкончанияЗадачи': predictorRequest.planEnd,
-            'ДатаначалаБП0': predictorRequest.actualStart ? predictorRequest.actualStart : predictorRequest.planStart
+            task_id: predictorRequest.task_code,
+            percent_ready: predictorRequest.progress,
+            plan_start_date: predictorRequest.planStart,
+            plan_end_date: predictorRequest.planEnd,
+            real_start_date: predictorRequest.actualStart ? predictorRequest.actualStart : predictorRequest.planStart
         }
         const resp = await firstValueFrom(this.httpService.post(`http://${predictorConfig().host}:${predictorConfig().port}/predict`, json));
         if(resp.status >= 200 && resp.status < 300) {  
@@ -37,6 +39,29 @@ export class HandlerService {
         } else {
             throw new InternalServerErrorException('Error when requesting prediction. Status code is not 200s')
         }
+    }
+
+    parseDateToDashFormat(value: string): string {
+        if (!value) {
+            if (!value) return;
+        }
+        if (value.indexOf('/') >= 0) {
+            return this.parseDateSlash(value);
+        } else if (value.indexOf('.') >= 0) {
+            return this.parseDateDot(value);
+        } if (value.indexOf('-') >= 0) {
+            return value;
+        }
+    }
+
+    parseDateSlash(value: string): string {
+        var parts = value.split("/");
+        return parseInt(parts[2]) + '-' + parseInt(parts[0]) + '-' + parseInt(parts[1]);
+    }
+
+    parseDateDot(value: string): string {
+        var parts = value.split(".");
+        return parseInt(parts[0]) + '-' + parseInt(parts[1]) + '-' + parseInt(parts[2]);
     }
 
     private async updateTask(upd: UpdateTaskDto) {
