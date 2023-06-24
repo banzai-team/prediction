@@ -12,7 +12,6 @@ import { plainToClass } from 'class-transformer';
 export class TaskService {
     constructor(@InjectRepository(TaskType) private readonly taskTypeRepository: Repository<TaskType>,
         @InjectRepository(Task) private readonly taskRepository: Repository<Task>,
-        @InjectRepository(TaskHistory) private readonly taskHistoryRepository: Repository<TaskHistory>,
         private readonly taskTypeService: TaskTypeService,
         private readonly buildingObjectService: BuildingObjectService
     ) {}
@@ -36,6 +35,18 @@ export class TaskService {
         return task;
     }
 
+    public async getTaskByObjectKeyTaskType (objectKey: string, taskTypeCode: string) {
+        const task = await this.taskRepository.findOne({ where: { 
+            buildingObject: {
+                objKey: objectKey
+            }, 
+            taskType: {
+                code: taskTypeCode
+            }}});
+        if (!task) throw new TaskNotFoundException("Task not found", -1);
+        return task;
+    }
+
     public async batchInsert(batch: TaskCreateDto[]) {
         this.taskRepository.createQueryBuilder()
             .insert()
@@ -45,19 +56,6 @@ export class TaskService {
     }
 
     public async batchUpsert(batch: TaskCreateDto[]) {
-        //console.log('tmsp', b.plannedStart.getTime());
-        // console.log('Task batchUpsert', batch.length);
-        // try {
-        //     await this.taskRepository
-        //     .query('select upsert_tasks($1, $2, $3, $4)', 
-        //     [batch.map(b => b.taskBuildingObjectKey), 
-        //         batch.map(b => b.taskTypeCode), 
-        //         batch.map(b => b.plannedStart.toISOString()), 
-        //         batch.map(b => b.plannedEnd.toISOString())
-        // ]);
-        // } catch(e) {
-        //     console.error(e);
-        // }
         const usedKeys = new Set();
         const filteredBatch = [];
         for (let i = 0; i < batch.length; i++) {
@@ -70,6 +68,20 @@ export class TaskService {
         }
         console.log('Task batchUpsert', filteredBatch.length);
         try {
+            // this.taskRepository.createQueryBuilder()
+            // .insert()
+            // .into(Task)
+            // .values(batch.map(t => {
+            //     const task = plainToClass(Task, t);
+            //     task.taskHistory = t.taskHistory.map(h => {
+            //         const taskHistory = plainToClass(TaskHistory, h);
+            //         taskHistory.task = task;
+            //         return taskHistory;
+            //     })
+            //     return task;
+            // }))
+            // .orUpdate({ conflict_target: ['taskType', 'buildingObject'], overwrite: ['plannedStart', 'plannedEnd'] })
+            // .execute();
             await this.taskRepository
                 .query(`insert into task (building_object_key, task_type_code, plan_start, plan_end) 
                 values ${filteredBatch.map(t => `('${t.taskBuildingObjectKey}', '${t.taskTypeCode}', '${t.plannedStart.toISOString()}', '${t.plannedEnd.toISOString()}')`)} 

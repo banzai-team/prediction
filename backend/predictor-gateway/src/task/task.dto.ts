@@ -54,6 +54,9 @@ export class TaskCreateDto {
 
     @IsDateString()
     plannedEnd: Date;
+
+    @IsOptional()
+    taskHistory: TaskHistoryCreateDto[];
 }
 
 export interface TaskTypeViewDto {

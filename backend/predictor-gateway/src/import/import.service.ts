@@ -6,6 +6,7 @@ import { TaskTypeService } from 'src/task/task-type.service';
 import { TaskCreateDto, TaskHistoryCreateDto, TaskTypeCreateDto } from 'src/task/task.dto';
 import * as moment from 'moment';
 import { TaskService } from 'src/task/task.service';
+import { TaskHistoryService } from 'src/task/task-history.service';
 
 const keys = {
     objKey: 'obj_key',
@@ -26,6 +27,7 @@ export class ImportService {
         private readonly buildingObjectService: BuildingObjectService,
         private readonly taskTypeService: TaskTypeService,
         private readonly taskService: TaskService,
+        private readonly taskHisoryService: TaskHistoryService
         ) {
         }
 
@@ -43,7 +45,8 @@ export class ImportService {
     private async handleBuildingObjectBatch(batch: Array<any>) : Promise<void> {
         const createBuildingObjects = [];
         const createTaskTypes = [];
-        const createTasks = [];
+        const createHistory = [];
+        const taskMap = new Map<String, TaskCreateDto>();
         const uniqueObjectKeys = new Set((await this.buildingObjectService.getUniqueObjectKeys()).map(r => r['obj_key']));
         const uniqueTaskCodes = new Set((await this.taskTypeService.getUniqueTaskTypeCodes()).map(r => r['code']));
         for (const row of batch) {
@@ -63,14 +66,19 @@ export class ImportService {
                         uniqueTaskCodes.add(row[keys.taskCode]);
                         //const taskHistory = new TaskHistoryCreateDto();
                     }
-
-                    const taskCreateDto = new TaskCreateDto();
-                    taskCreateDto.taskTypeCode = row[keys.taskCode];
-                    taskCreateDto.taskBuildingObjectKey = row[keys.objKey];
-                    taskCreateDto.plannedStart = this.parseDate(row[keys.plannedStart]);
-                    taskCreateDto.plannedEnd = this.parseDate(row[keys.plannedEnd]);
-                    //console.log('taskCreateDto', taskCreateDto);
-                    createTasks.push(taskCreateDto);
+                    const taskCreateDto = taskMap.get(row[keys.objKey] + '-' + row[keys.taskCode]);
+                    if (taskCreateDto) {
+                        taskCreateDto.plannedStart = this.parseDate(row[keys.plannedStart]);
+                        taskCreateDto.plannedEnd = this.parseDate(row[keys.plannedEnd]);
+                    } else {
+                        const taskCreateDto = new TaskCreateDto();
+                        taskCreateDto.taskTypeCode = row[keys.taskCode];
+                        taskCreateDto.taskBuildingObjectKey = row[keys.objKey];
+                        taskCreateDto.plannedStart = this.parseDate(row[keys.plannedStart]);
+                        taskCreateDto.plannedEnd = this.parseDate(row[keys.plannedEnd]);
+                        taskCreateDto.taskHistory = [];
+                        taskMap.set(row[keys.objKey] + '-' + row[keys.taskCode], taskCreateDto);
+                    }
 
                     const taskHistoryCreateDto = new TaskHistoryCreateDto();
                     taskHistoryCreateDto.objectKey = row[keys.objKey];
@@ -82,7 +90,7 @@ export class ImportService {
                         taskHistoryCreateDto.documentEnd = this.parseDate(row[keys.plannedEnd]);
                     }
                     taskHistoryCreateDto.progress = row[keys.progress];
-                    console.log(taskHistoryCreateDto);
+                    createHistory.push(taskHistoryCreateDto);
                 } else {
                     console.warn('Row has no Код задачи value. Ignoring');
                 }
@@ -93,7 +101,8 @@ export class ImportService {
         }
         await this.buildingObjectService.batchInsert(createBuildingObjects);
         await this.taskTypeService.batchInsert(createTaskTypes);
-        await this.taskService.batchUpsert(createTasks);
+        await this.taskService.batchUpsert([...taskMap.values()]);
+        await this.taskHisoryService.batchInsert(createHistory);
         console.log('Completed handleBuildingObjectBatch', batch.length);
     }
 
