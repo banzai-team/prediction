@@ -1,4 +1,5 @@
 import logging
+import os
 
 from fastapi import FastAPI
 from pydantic import BaseModel
@@ -9,14 +10,15 @@ from . import src
 
 app = FastAPI()
 
-MODEL_FIT_TRANSFORM_PATH = '../models/fit_transform.csv'
-MODEL_CATBOOST_PATH = '../models/predictor'
+MODEL_FIT_TRANSFORM_PATH = 'models/fit_transform.csv'
+MODEL_CATBOOST_PATH = 'models/predictor'
 
 fit_transform = pd.read_csv(MODEL_FIT_TRANSFORM_PATH, index_col=0, dtype={'task_id': 'str'})
 data_proc = src.data_processor.DataProcessor()
 X = data_proc.preprocess(fit_transform, add_pca_feats=True, one_hot_encode=True)
 
 pr = src.processor.Processor(data_proc, MODEL_CATBOOST_PATH)
+print(os.listdir('./'))
 
 
 class Item(BaseModel):
