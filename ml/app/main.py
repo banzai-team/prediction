@@ -33,7 +33,7 @@ def read_root():
     return {"Hello": "World"}
 
 
-@app.post("/predict_v0")
+@app.post("/predict")
 def read_item(item: Item):
     sample = utils.DataSample(obj_prg=item.obj_prg,
                               task_id=item.task_id,
