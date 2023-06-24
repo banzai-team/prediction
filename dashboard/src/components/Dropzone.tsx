@@ -3,7 +3,7 @@ import { useDropzone } from 'react-dropzone';
 import React from "react";
 import {DownloadIcon} from "@chakra-ui/icons";
 
-const Dropzone: React.FC<{ onDrop: any }> = props => {
+const Dropzone: React.FC<{ onDrop: any, acceptTypes?: any }> = props => {
     const { onDrop } = props;
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         // TODO: add files types
@@ -11,6 +11,7 @@ const Dropzone: React.FC<{ onDrop: any }> = props => {
         //     'video/mp4': [],
         //     'video/mov': [],
         // },
+        accept: props.acceptTypes,
         onDrop: acceptedFiles => onDrop(acceptedFiles)
     });
 

@@ -28,6 +28,7 @@ const overrides = {
             900: "#cb2323",
             700: "#EA3E3E",
             400: "#E96868",
+            200: "#FFD0D0",
         },
     },
     components: {
