@@ -21,4 +21,18 @@ export class TaskTypeService {
         if (!taskType) throw new TaskTypeNotFoundException('Task type was not found' , code);
         return taskType;
     }
+
+    public async getUniqueTaskTypeCodes(): Promise<{code: string}[]> {
+        return await this.taskTypeRepository.createQueryBuilder()
+        .select(['code'])
+        .execute();
+    }
+
+    public async batchInsert(taskTypeCreateDtos: TaskTypeCreateDto[]) {
+        await this.taskTypeRepository.createQueryBuilder()
+            .insert()
+            .into(TaskType)
+            .values(taskTypeCreateDtos.map(d => plainToClass(TaskType, d)))
+            .execute();
+    }
 }
