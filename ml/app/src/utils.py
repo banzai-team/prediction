@@ -20,6 +20,7 @@ class DataSample:
 class DataInputSample:
     """Class for keeping one sample of data"""
     id: int
+    plan_during: int
     obj_prg: str
     task_id: str
     target: int

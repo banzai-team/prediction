@@ -18,11 +18,13 @@ class Processor:
         id_ = 1
         obj_prg = sample.obj_prg
         task_id = group_task(sample.task_id)
-        late_start = calc_dif_date(str_to_date(sample.real_start_date),
-                                   str_to_date(sample.plan_start_date))
+        late_start = calc_dif_date(str_to_date(sample.plan_start_date),
+                                   str_to_date(sample.real_start_date))
+        duration = calc_dif_date(str_to_date(sample.plan_start_date),
+                                 str_to_date(sample.plan_end_date))
         frame = pd.DataFrame(asdict(DataInputSample(task_id=task_id, late_start=late_start, target=0,
-                                                    obj_prg=obj_prg, id=id_)), index=[0])
-        frame = frame[['task_id', 'late_start', 'target', 'obj_prg', 'id']]
+                                                    obj_prg=obj_prg, id=id_, plan_during=duration)), index=[0])
+        frame = frame[['task_id', 'late_start', 'target', 'obj_prg', 'id', 'plan_during']]
         return frame
 
     def predict(self, sample):
