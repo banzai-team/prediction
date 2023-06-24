@@ -13,7 +13,6 @@ import { HealthModule } from "./health/health.module";
 import { PredictorModule } from './predictor/predictor.module';
 import { CommonModule } from './common/common.module';
 import { BuidlingObjectTaskModule } from './buidling-object-task/buidling-object-task.module';
-import { EventsModule } from "./events/events.module";
 
 
 @Module({
@@ -34,8 +33,7 @@ import { EventsModule } from "./events/events.module";
     HealthModule,
     PredictorModule,
     CommonModule,
-    BuidlingObjectTaskModule,
-    EventsModule
+    BuidlingObjectTaskModule
   ],
   controllers: [AppController],
   providers: [AppService],

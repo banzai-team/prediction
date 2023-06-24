@@ -4,7 +4,7 @@ import {
   OnQueueError,
   OnQueueFailed,
 } from '@nestjs/bull';
-import { Job } from 'bullmq';
+import { Job } from 'bull';
 import { Logger } from '@nestjs/common';
 
 export abstract class AbstractEventsConsumer {
