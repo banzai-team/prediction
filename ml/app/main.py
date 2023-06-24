@@ -42,5 +42,4 @@ def read_item(item: Item):
                               plan_end_date=item.plan_end_date,
                               real_start_date=item.real_start_date)
     predict = pr.predict(sample)[0]
-    logging.info(predict)
     return {'late_days': predict}
