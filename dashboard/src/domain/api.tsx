@@ -19,6 +19,10 @@ export function getTasks(id: string | undefined) {
     return axios.get(`${config.apiUrl}/building-object/${id}/tasks`);
 }
 
+export function getTaskHistory(id: string | undefined) {
+  return axios.get(`${config.apiUrl}/task/${id}/history`);
+}
+
 export function getObjects() {
   return axios.get(`${config.apiUrl}/building-object`);
 }
