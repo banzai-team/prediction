@@ -15,17 +15,14 @@ export class TaskTypeCreateDto {
 }
 
 export class TaskHistoryCreateDto {
-    @IsNotEmpty()
-    @IsInt()
-    taskId: number;
-
     @IsString()
-    @IsOptional()
     objectKey: string;
 
     @IsString()
-    @IsOptional()
     taskTypeCode: string;
+
+    @IsDateString()
+    reportDate: Date;
 
     @IsOptional()
     progress: number;
@@ -54,9 +51,6 @@ export class TaskCreateDto {
 
     @IsDateString()
     plannedEnd: Date;
-
-    @IsOptional()
-    taskHistory: TaskHistoryCreateDto[];
 }
 
 export interface TaskTypeViewDto {
