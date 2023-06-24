@@ -1,15 +1,12 @@
 import { Module } from '@nestjs/common';
-import { ClientsModule, Transport } from '@nestjs/microservices';
-import { config } from 'src/config/configuration';
-const predictorConfig = config().predictor;
+import { PredictorService } from './predictor.service';
+import { HttpModule } from '@nestjs/axios';
+import { PredictorController } from './predictor.controller';
+
 @Module({
-    imports: [
-        ClientsModule.register([
-            { 
-                name: 'PREDICTOR_SERVICE', 
-                transport: Transport.TCP,
-                options: { host: predictorConfig.host, port: predictorConfig.port } },
-          ]),
-    ]
+    imports: [HttpModule],
+    providers: [PredictorService],
+    exports: [PredictorService],
+    controllers: [PredictorController]
 })
 export class PredictorModule {}
