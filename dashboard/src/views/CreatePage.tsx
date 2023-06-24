@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import { useMutation } from "react-query";
 import {Box, Button, Center, Flex, Text, IconButton} from "@chakra-ui/react";
 import { AttachmentIcon, CloseIcon } from '@chakra-ui/icons'
+import {useNavigate} from "react-router-dom";
 
 import { sendModel } from "../domain/api";
 import PageTitle from "../components/PageTitle";
@@ -11,10 +12,11 @@ import BackButton from "../components/BackButton";
 import {ROUTES} from "./Router";
 
 const CreatePage: React.FC = () => {
+    const navigate = useNavigate();
     const send = useMutation(sendModel, {
-        // onSuccess: (data) => {
-        //     navigate(`/jobs/${data.data}`);
-        // }
+        onSuccess: (data) => {
+            navigate(ROUTES.DASHBOARD);
+        }
     });
 
     const formik = useFormik<{
@@ -30,7 +32,6 @@ const CreatePage: React.FC = () => {
             files: [],
         },
         onSubmit: async (values) => send.mutate({ file: values.files[0] }),
-        // onSubmit: async (values) => console.log(values),
     });
 
     const hasFile = !!formik.values.files.length;

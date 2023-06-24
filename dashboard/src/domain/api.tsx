@@ -19,6 +19,10 @@ export function getTasks(id: string | undefined) {
     return axios.get(`${config.apiUrl}/building-object/${id}/tasks`);
 }
 
+export function getObjects() {
+  return axios.get(`${config.apiUrl}/building-object`);
+}
+
 //
 // export function addFlat(payload: SendModelPayload) {
 //   const form = new FormData();

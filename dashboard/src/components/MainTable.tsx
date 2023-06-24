@@ -16,7 +16,7 @@ interface Props {
 }
 
 // TODO: types
-const DashboardTable: React.FC<Props> = ({columns, data, onRowClick}) => {
+const MainTable: React.FC<Props> = ({columns, data, onRowClick}) => {
     const table = useReactTable({
         data,
         columns,
@@ -85,4 +85,4 @@ const DashboardTable: React.FC<Props> = ({columns, data, onRowClick}) => {
     </Box>;
 };
 
-export default DashboardTable;
+export default MainTable;

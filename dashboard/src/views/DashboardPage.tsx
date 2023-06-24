@@ -1,90 +1,25 @@
 import React from 'react';
-import {ColumnDef, Row} from '@tanstack/react-table';
 import {useNavigate} from 'react-router-dom';
-// import { CellProps } from 'react-table';
-
-import {Button, Flex, Text} from "@chakra-ui/react";
+import { useQuery } from "react-query";
 import { AddIcon } from '@chakra-ui/icons'
-import DashboardTable from '../components/DashboardTable';
+
+import {Button, Center, Flex, Spinner} from "@chakra-ui/react";
 import PageTitle from "../components/PageTitle";
 import {ROUTES} from "./Router";
+import {getObjects} from "../domain/api";
+import DashboardTableView from "./DashboardTableView";
+import EmptyPlaceholder from "../components/EmptyPlaceholder";
 
 // TODO: types
 const Dashboard: React.FC = () => {
    const navigate = useNavigate();
 
-   const onRowClick = (row: Row<any>): void => {
-      navigate(`/object/${row.original.objectId}`);
-   };
+   const obj = useQuery(["getObjects"], () => getObjects(), {
+      refetchInterval: 5000,
+   });
+
 
    const onCreate = () => navigate(ROUTES.CREATE);
-
-   const columns = React.useMemo<ColumnDef<any>[]>(
-       () => [
-          {
-             accessorKey: 'objectId',
-             header: 'Object Id',
-             cell: ({ getValue }: any) => (
-                 <Text
-                     fontWeight="bold"
-                 >
-                    {getValue()}
-                 </Text>
-             ),
-             footer: props => props.column.id,
-          },
-          {
-             accessorKey: 'time',
-             header: 'Time',
-             cell: info => info.getValue(),
-             footer: props => props.column.id,
-          },
-          {
-             accessorKey: 'taskCount',
-             header: 'Task Count',
-             cell: info => info.getValue(),
-             footer: props => props.column.id,
-          },
-          {
-             accessorKey: 'progress',
-             header: 'Progress',
-             cell: info => info.getValue(),
-             footer: props => props.column.id,
-          },
-       ], []);
-
-   const data = [
-      {
-         objectId: "1",
-         time: "21232134214",
-         taskCount: 5,
-         progress: 30,
-      },
-      {
-         objectId: "1",
-         time: "21232134214",
-         taskCount: 5,
-         progress: 30,
-      },
-      {
-         objectId: "1",
-         time: "21232134214",
-         taskCount: 5,
-         progress: 30,
-      },
-      {
-         objectId: "1",
-         time: "21232134214",
-         taskCount: 5,
-         progress: 30,
-      },
-      {
-         objectId: "1",
-         time: "21232134214",
-         taskCount: 5,
-         progress: 30,
-      },
-   ];
    
    return (
        <>
@@ -100,7 +35,13 @@ const Dashboard: React.FC = () => {
                 Add file
              </Button>
           </Flex>
-          <DashboardTable columns={columns} data={data} onRowClick={onRowClick}/>
+          {
+             obj.isLoading
+                 ? <Center mt="40px"><Spinner/></Center>
+                     : obj.data
+                        ? <DashboardTableView objects={obj.data}/>
+                        : <EmptyPlaceholder>Objects list is empty</EmptyPlaceholder>
+          }
        </>
    );
 };
