@@ -19,6 +19,14 @@ export class TaskHistoryCreateDto {
     @IsInt()
     taskId: number;
 
+    @IsString()
+    @IsOptional()
+    objectKey: string;
+
+    @IsString()
+    @IsOptional()
+    taskTypeCode: string;
+
     @IsOptional()
     progress: number;
 
