@@ -25,7 +25,7 @@ spec:
           envFrom:
             - configMapRef:
                 name: banzai-predictor-gateway
-          image: {{.Values.image.name}}:{{.Values.image.tag}}
+          image: {{.Values.image.repository}}:{{.Values.image.tag}}
           command:
             - "npm"
             - "run"
