@@ -78,7 +78,7 @@ autoscaling:
 affinity: {}
 
 config:
-  DB_HOST: banzai-predictor-gateway-postgresql
+  DB_HOST: banzai-predictor-gateway.banzai-predictor-gateway-postgresql
   DB_NAME: building_predictor
   DB_PORT: "5432"
   DB_USERNAME: app
