@@ -6,9 +6,14 @@ import BackButton from "../components/BackButton";
 import {ROUTES} from "./Router";
 import GanttChart from '../components/GanttChart';
 
+import {useQuery,} from 'react-query'
+import {getTasks} from '../domain/api';
+
 const ObjectPage: React.FC = () => {
     const { id } = useParams();
 
+    const { data, isLoading } = useQuery([id, "tasks"], () => getTasks(id));
+    
     const tasks: any[] = [
         {
             id: 'Task 1',
