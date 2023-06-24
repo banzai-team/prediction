@@ -3,6 +3,11 @@
 #
 
 rabbitmq:
+  auth:
+      username:
+      password:
+  persistence:
+    enabled: true
   livenessProbe:
     enabled: false
     initialDelaySeconds: 120
