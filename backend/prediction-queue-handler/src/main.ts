@@ -1,12 +1,13 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { config } from "./config/configuration";
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
     transport: Transport.RMQ,
     options: {
-      urls: ['amqp://localhost:15672'],
+      urls: [`amqp://${config().predictor.host}:${config().predictor.port}`],
       queue: 'prediction',
       queueOptions: {
         durable: false
@@ -15,4 +16,5 @@ async function bootstrap() {
   });
   await app.listen();
 }
+
 bootstrap();

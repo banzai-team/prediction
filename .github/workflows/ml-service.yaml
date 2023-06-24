@@ -1,13 +1,13 @@
 name: ML service CI workflow
 on:
   push:
-#    paths:
-#      - 'ml/**'
+    paths:
+      - 'ml/**'
     branches:
       - main
   pull_request:
-#    paths:
-#      - 'ml/**'
+    paths:
+      - 'ml/**'
 permissions:
   contents: write
 
