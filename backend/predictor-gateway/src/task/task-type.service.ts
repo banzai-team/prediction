@@ -28,6 +28,10 @@ export class TaskTypeService {
         .execute();
     }
 
+    public async getTaskTypes(): Promise<TaskType[]> {
+        return await this.taskTypeRepository.find();
+    }
+
     public async batchInsert(taskTypeCreateDtos: TaskTypeCreateDto[]) {
         await this.taskTypeRepository.createQueryBuilder()
             .insert()

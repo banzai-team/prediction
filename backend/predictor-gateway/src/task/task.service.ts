@@ -10,7 +10,9 @@ import { plainToClass } from 'class-transformer';
 
 @Injectable()
 export class TaskService {
-    constructor(@InjectRepository(TaskType) private readonly taskTypeRepository: Repository<TaskType>,
+    constructor(
+        @InjectRepository(TaskType) private readonly taskTypeRepository: Repository<TaskType>,
+        @InjectRepository(TaskHistory) private readonly taskHistoryRepository: Repository<TaskHistory>,
         @InjectRepository(Task) private readonly taskRepository: Repository<Task>,
         private readonly taskTypeService: TaskTypeService,
         private readonly buildingObjectService: BuildingObjectService
@@ -56,36 +58,29 @@ export class TaskService {
     }
 
     public async batchUpsert(batch: TaskCreateDto[]) {
-        const usedKeys = new Set();
         const filteredBatch = [];
-        for (let i = 0; i < batch.length; i++) {
-            const obj = batch[i];
-            const key = obj.taskBuildingObjectKey + '-' + obj.taskTypeCode;
-            if (!usedKeys.has(key)) {
-                usedKeys.add(key);
-                filteredBatch.push(obj);
-            }
-        }
         console.log('Task batchUpsert', filteredBatch.length);
+        const bos = await this.buildingObjectService.getBuildingObjects();
+        const codes = await this.taskTypeService.getTaskTypes();
         try {
-            // this.taskRepository.createQueryBuilder()
-            // .insert()
-            // .into(Task)
-            // .values(batch.map(t => {
-            //     const task = plainToClass(Task, t);
-            //     task.taskHistory = t.taskHistory.map(h => {
-            //         const taskHistory = plainToClass(TaskHistory, h);
-            //         taskHistory.task = task;
-            //         return taskHistory;
-            //     })
-            //     return task;
-            // }))
-            // .orUpdate({ conflict_target: ['taskType', 'buildingObject'], overwrite: ['plannedStart', 'plannedEnd'] })
-            // .execute();
-            await this.taskRepository
-                .query(`insert into task (building_object_key, task_type_code, plan_start, plan_end) 
-                values ${filteredBatch.map(t => `('${t.taskBuildingObjectKey}', '${t.taskTypeCode}', '${t.plannedStart.toISOString()}', '${t.plannedEnd.toISOString()}')`)} 
-                on conflict (building_object_key, task_type_code) DO UPDATE SET plan_start = EXCLUDED.plan_start, plan_end = EXCLUDED.plan_end;`)
+            this.taskRepository
+            .createQueryBuilder()
+            .insert()
+            .into(Task)
+            .values(batch.map(t => {
+                const task = plainToClass(Task, t);
+                task.buildingObject = bos.find(b => b.objKey === t.taskBuildingObjectKey);
+                task.taskType = codes.find(b => b.code === t.taskTypeCode);
+                return task;
+            }))
+            .orUpdate({ conflict_target: ['task_type_code', 'building_object_key'], overwrite: ['plan_start', 'plan_end'] })
+            .execute();
+            // console.log(batch);
+            // await this.taskHistoryRepository.save(taskHistoies);
+            // await this.taskRepository
+            //     .query(`insert into task (building_object_key, task_type_code, plan_start, plan_end) 
+            //     values ${filteredBatch.map(t => `('${t.taskBuildingObjectKey}', '${t.taskTypeCode}', '${t.plannedStart.toISOString()}', '${t.plannedEnd.toISOString()}')`)} 
+            //     on conflict (building_object_key, task_type_code) DO UPDATE SET plan_start = EXCLUDED.plan_start, plan_end = EXCLUDED.plan_end;`)
         } catch(e) {
             console.error(e);
         }

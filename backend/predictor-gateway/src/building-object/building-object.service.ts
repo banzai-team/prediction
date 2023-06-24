@@ -43,6 +43,10 @@ export class BuildingObjectService {
         };        
     }
 
+    async getBuildingObjects(): Promise<BuildingObject[]> {
+        return await this.buildingObjectRepository.find();
+    }
+
     async existsBuildingObjectByKey(objKey:string): Promise<boolean> {
         return await this.buildingObjectRepository.exist({ where: { objKey } });
     }

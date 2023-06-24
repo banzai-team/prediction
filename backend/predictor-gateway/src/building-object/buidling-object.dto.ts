@@ -1,4 +1,4 @@
-import { TaskViewDto } from "src/task/task.dto";
+import { TaskCreateDto, TaskViewDto } from "src/task/task.dto";
 
 export class BuildingObjectCreateDto {
     objKey: string;

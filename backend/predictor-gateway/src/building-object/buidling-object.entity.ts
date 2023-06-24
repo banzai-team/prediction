@@ -1,4 +1,4 @@
-import { Task } from "src/task/task.entity";
+import { Task, TaskHistory } from "src/task/task.entity";
 import { Entity, OneToMany, PrimaryColumn } from "typeorm";
 
 @Entity()
@@ -8,4 +8,7 @@ export class BuildingObject {
 
     @OneToMany(type => Task, task => task.buildingObject)
     tasks: Task[];
+
+    @OneToMany(type => TaskHistory, taskHistory => taskHistory.buildingObject)
+    taskHistories: TaskHistory[];
 }
