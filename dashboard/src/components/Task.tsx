@@ -17,7 +17,7 @@ export function Task(task: any) {
         name: `${task?.taskType?.name}: ${getOffset()}`,
         start: new Date(task.plannedStart),
         end: new Date(task.plannedEnd),
-        progress: task?.history[0].progress,
+        progress: task?.history[0]?.progress ? task.history[0].progress : 0,
         custom_class: className
     };
 }
