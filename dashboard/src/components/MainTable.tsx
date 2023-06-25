@@ -21,7 +21,7 @@ const MainTable: React.FC<Props> = ({columns, data, onRowClick}) => {
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
-        getPaginationRowModel: getPaginationRowModel(),
+        // getPaginationRowModel: getPaginationRowModel(),
         debugTable: true,
     });
 
