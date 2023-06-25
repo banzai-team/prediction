@@ -15,6 +15,22 @@ const overrides = {
                     opacity: 0.8
                 },
             },
+            ".gantt-normal .bar-progress": {
+                fill: "#68bfeeb8 !important"
+            },
+            ".gantt-bad .bar-progress": {
+                fill: "#f1311db8 !important"
+            },
+            ".gantt-good .bar-progress": {
+                fill: "#62e91b61 !important"
+            },
+            ".gantt .bar-label": {
+                fill: "#000 !important",
+                fontWeight: "bold"
+            },
+            ".gantt .bar": {
+                fill: "#ccc !important",
+            }
             // button: {
             //     background: "brand.900",
             //     _hover: {
