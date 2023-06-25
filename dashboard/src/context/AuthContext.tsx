@@ -18,6 +18,12 @@ export const AuthContextProvider: React.FC<{children?: any}> = ({children}) => {
     const AuthContext = createAuthContext();
 
     const [isAuth, setIsAuth] = React.useState<boolean>(false);
+    
+    React.useEffect(() => {
+        if (localStorage.getItem('auth')) {
+            setIsAuth(true);
+        }
+    }, []);
 
     const value = {
         isAuth,

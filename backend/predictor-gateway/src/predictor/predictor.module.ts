@@ -18,6 +18,7 @@ import { config } from "../config/configuration";
                   hostname: config().rabbitmq.host,
                   port: config().rabbitmq.port,
                   username: config().rabbitmq.username,
+                  password: config().rabbitmq.password,
                 }],
                 queue: 'prediction',
                 queueOptions: {

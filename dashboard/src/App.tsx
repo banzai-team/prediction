@@ -7,7 +7,7 @@ import {IntlProvider} from "react-intl";
 import Router from "./views/Router";
 import overrides from "./theme/index";
 import {AuthContextProvider} from './context/AuthContext';
-import rus from './intl/en.json';
+import rus from './intl/ru.json';
 
 const queryClient = new QueryClient();
 

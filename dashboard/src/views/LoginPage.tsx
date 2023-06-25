@@ -42,6 +42,11 @@ const LoginPage: React.FC<{}> = () => {
         onSubmit: async (values) => navigate(ROUTES.DASHBOARD),
         validationSchema
     });
+    
+    const onSubmit = () => {
+        setIsAuth(true);
+        localStorage.setItem("auth", "true");
+    };
 
     return (
         <Flex maxW='md' w="100%" alignItems="center" direction="column">
@@ -60,7 +65,7 @@ const LoginPage: React.FC<{}> = () => {
                 <FormattedMessage id = "login.title"/>
             </Text>
 
-            <form onSubmit={() => setIsAuth(true)} style={{ width: "100%" }}>
+            <form onSubmit={onSubmit} style={{ width: "100%" }}>
                 <FormControl>
                     <FormLabel>
                         <FormattedMessage id = "login.username"/>

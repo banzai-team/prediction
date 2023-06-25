@@ -22,7 +22,8 @@ const predictorConfig = (): { host: string, port: number } => ({
 const rabbitmq = () => ({
   host: process.env.RABBIT_HOST,
   port: process.env.RABBIT_PORT ? parseInt(process.env.RABBIT_PORT, 10) : 15672,
-  username: process.env.RABBIT_USERNAME
+  username: process.env.RABBIT_USERNAME,
+  password: process.env.RABBIT_PASSWORD
 });
 
 export const config = () => ({
