@@ -36,7 +36,14 @@ export class BuildingObjectController {
                     id: t.id,
                     taskType: { code: taskType.code, name: taskType.name, isCritical: taskType.isCritical},
                     plannedStart: t.plannedStart,
-                    plannedEnd: t.plannedEnd
+                    plannedEnd: t.plannedEnd,
+                    history: bo.taskHistories ? bo.taskHistories.filter(h => h.taskTypeCode === t.taskTypeCode).map(h => ({
+                        reportDate: h.reportDate,
+                        id: h.id,
+                        actualStart: h.documentStart,
+                        actualEnd: h.documentEnd,
+                        progress: h.progress
+                    })) : null
                 }
             }) : []
         };

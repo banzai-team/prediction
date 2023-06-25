@@ -1,8 +1,8 @@
 name: Backend Queue Service CI workflow
 on:
   push:
-    paths:
-      - 'backend/prediction-queue-handler/**'
+#    paths:
+#      - 'backend/prediction-queue-handler/**'
     branches:
       - main
   pull_request:

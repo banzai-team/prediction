@@ -73,4 +73,5 @@ export interface TaskViewDto {
     plannedStart: Date;
     plannedEnd: Date;
     offset: number;
+    history?: TaskHistoryViewDto[];
 }
