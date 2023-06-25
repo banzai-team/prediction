@@ -10,7 +10,7 @@ export class HandlerController {
 
     @MessagePattern({cmd: 'make-prediction'})
     async getNotifications(@Payload() row: PredictorRequest) {
-        console.log('Received: ', row);
+        //console.log('Received: ', row);
         await this.handlerService.doPredict(row);
         //await Promise.all(rows.map(async(row) =>  ));
         console.log('Completed prediction processing');

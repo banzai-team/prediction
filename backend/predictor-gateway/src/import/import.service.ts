@@ -92,14 +92,14 @@ export class ImportService {
                         }
     
                         if (row[keys.documentStart]) {
-                            const historyCreteDto = historyMap.get(row[keys.objKey] + '-' + row[keys.taskCode] + '-' + 
+                            const historyCreateDto = historyMap.get(row[keys.objKey] + '-' + row[keys.taskCode] + '-' + 
                             row[keys.documentStart] + row[keys.documentEnd]);
-                            if (!historyCreteDto) {
+                            if (!historyCreateDto) {
                                 const historyCreateDto = new TaskHistoryCreateDto();
                                 historyCreateDto.objectKey = row[keys.objKey];
                                 historyCreateDto.taskTypeCode = row[keys.taskCode];
                                 if (row[keys.reportDate]) {
-                                    historyCreateDto.reportDate = this.parseDateDot(row[keys.reportDate]);
+                                    historyCreateDto.reportDate = this.parseDate(row[keys.reportDate]) ;
                                 }
                                 if (row[keys.documentStart]) {
                                     historyCreateDto.documentStart = this.parseDate(row[keys.documentStart]);
