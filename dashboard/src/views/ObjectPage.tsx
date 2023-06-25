@@ -6,7 +6,7 @@ import PageTitle from "../components/PageTitle";
 import BackButton from "../components/BackButton";
 import {ROUTES} from "./Router";
 import GanttChart from '../components/GanttChart';
-import {getTasks} from '../domain/api';
+import {getFullTasks, getTasks} from '../domain/api';
 import {useQuery} from 'react-query';
 import Task from '../components/Task';
 import {TaskViewDto} from '../objects/taskDto';
@@ -16,7 +16,10 @@ import {FormattedMessage} from "react-intl";
 const ObjectPage: React.FC = () => {
     const { id } = useParams();
     const {data: tasks, isLoading, error} = useQuery([id, "tasks"], () => getTasks(id));
-    const tasksForMap: TaskViewDto[] = tasks?.data;
+   /* const tasksForMap: TaskViewDto[] = tasks?.data;*/
+
+    const {data: fullTasks} = useQuery([id, "fullTasks"], () => getFullTasks(id));
+    const tasksForMap: TaskViewDto[] = fullTasks?.data;
 
     const tasksData = tasksForMap && tasksForMap?.length > 0 ? tasksForMap?.map(task => {
         return Task(task, task.id.toString());
