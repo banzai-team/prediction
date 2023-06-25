@@ -1,6 +1,3 @@
-import {useQuery} from 'react-query';
-import {getTaskHistory} from '../domain/api';
-
 export function Task(task: any, id: string | undefined) {
     
     return {
