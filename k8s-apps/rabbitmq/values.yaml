@@ -6,10 +6,10 @@ rabbitmq:
   clustering:
     enabled: false
   auth:
-#    username:
+    username: user
     password: pass
-  persistence:
-    enabled: true
+#  persistence:
+#    enabled: true
   livenessProbe:
     enabled: false
     initialDelaySeconds: 120
