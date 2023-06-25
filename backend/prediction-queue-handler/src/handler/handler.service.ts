@@ -25,12 +25,17 @@ export class HandlerService {
             obj_key: predictorRequest.obj_key,
             task_id: predictorRequest.task_code,
             percent_ready: predictorRequest.progress,
-            plan_start_date: predictorRequest.planStart,
-            plan_end_date: predictorRequest.planEnd,
-            real_start_date: predictorRequest.actualStart ? predictorRequest.actualStart : predictorRequest.planStart
+            plan_start_date: this.parseDateToDashFormat(predictorRequest.planStart),
+            plan_end_date: this.parseDateToDashFormat(predictorRequest.planEnd),
+            real_start_date: this.parseDateToDashFormat(predictorRequest.actualStart ? predictorRequest.actualStart : predictorRequest.planStart)
         }
         const resp = await firstValueFrom(this.httpService.post(`http://${predictorConfig().host}:${predictorConfig().port}/predict`, json));
         if(resp.status >= 200 && resp.status < 300) {  
+            console.log('Received response from predictor: ', {
+                objectKey: predictorRequest.obj_key,
+                taskCode: predictorRequest.task_code,
+                daysOffset: resp.data['late_days']
+            })
             await this.updateTask({
                 objectKey: predictorRequest.obj_key,
                 taskCode: predictorRequest.task_code,
