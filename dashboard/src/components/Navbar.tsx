@@ -9,7 +9,11 @@ const Navbar: React.FC<{children?: any}> = ({ children }) => {
     // TODO: add endpoint
     const {setIsAuth} = useAuthContext();
 
-    const Logout = () => setIsAuth(false);
+    const Logout = () => {
+        setIsAuth(false);
+        localStorage.removeItem("auth");
+    }
+    
     return (
         <Flex
             zIndex={10}
