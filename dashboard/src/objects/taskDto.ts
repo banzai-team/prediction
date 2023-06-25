@@ -17,4 +17,5 @@ export interface TaskViewDto {
     taskType: TaskTypeViewDto;
     plannedStart: Date;
     plannedEnd: Date;
+    offset: number;
 }
