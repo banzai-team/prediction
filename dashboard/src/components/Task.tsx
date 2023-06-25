@@ -5,7 +5,7 @@ export function Task(task: any, id: string | undefined) {
         name: task?.taskType?.name,
         start: '2016-12-28',
         end: '2016-12-31',
-        progress: 0,
+        progress: task?.history[0].progress,
         dependencies: ''
     };
 }

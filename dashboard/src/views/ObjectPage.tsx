@@ -16,10 +16,9 @@ import {FormattedMessage} from "react-intl";
 const ObjectPage: React.FC = () => {
     const { id } = useParams();
     const {data: tasks, isLoading, error} = useQuery([id, "tasks"], () => getTasks(id));
-   /* const tasksForMap: TaskViewDto[] = tasks?.data;*/
 
     const {data: fullTasks} = useQuery([id, "fullTasks"], () => getFullTasks(id));
-    const tasksForMap: TaskViewDto[] = fullTasks?.data;
+    const tasksForMap: TaskViewDto[] = fullTasks?.data?.tasks;
 
     const tasksData = tasksForMap && tasksForMap?.length > 0 ? tasksForMap?.map(task => {
         return Task(task, task.id.toString());
