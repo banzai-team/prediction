@@ -21,7 +21,7 @@ const ObjectPage: React.FC = () => {
     const tasksForMap: TaskViewDto[] = fullTasks?.data?.tasks;
 
     const tasksData = tasksForMap && tasksForMap?.length > 0 ? tasksForMap?.map(task => {
-        return Task(task, task.id.toString());
+        return Task(task);
     }) : [];
 
     const criticalSum = tasks?.data.reduce( (a: number, b: any) => {

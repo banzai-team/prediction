@@ -1,12 +1,13 @@
-export function Task(task: any, id: string | undefined) {
+export function Task(task: any) {
+    const start = task.plannedStart.substring(0, 10);
+    const end = task.plannedEnd.substring(0, 10);
     
     return {
-        id: task?.id,
+        id: task?.id.toString(),
         name: task?.taskType?.name,
-        start: '2016-12-28',
-        end: '2016-12-31',
+        start,
+        end,
         progress: task?.history[0].progress,
-        dependencies: ''
     };
 }
 
