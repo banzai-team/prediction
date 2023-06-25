@@ -19,9 +19,8 @@ export class BuildingObjectService {
 
     public async getBuildingObjectByKeyWithRelations (objKey:string) {
         const buildingObject = await this.buildingObjectRepository.findOne({ where: { objKey },
-            relations: ['tasks', 'tasks.taskType']});
+            relations: ['tasks', 'tasks.taskType', 'taskHistories']});
         if (!buildingObject) throw new BuildingObjectNotFound('Object not found', objKey);
-        console.log(buildingObject.tasks);
         return buildingObject;
     }
 
