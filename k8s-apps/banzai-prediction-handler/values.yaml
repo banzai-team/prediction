@@ -87,6 +87,7 @@ config:
   RABBIT_HOST: rabbitmq.rabbitmq
   RABBIT_PORT: 5672
   RABBIT_USERNAME: user
+  RABBIT_PASSWORD: pass
   PREDICTOR_HOST: banzai-ml-service.banzai-ml-service
   PREDICTOR_PORT: 80
 

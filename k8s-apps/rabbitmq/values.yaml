@@ -6,8 +6,8 @@ rabbitmq:
   clustering:
     enabled: false
   auth:
-    #      username:
-    password:
+#    username:
+    password: pass
   persistence:
     enabled: true
   livenessProbe:

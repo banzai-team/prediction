@@ -71,6 +71,7 @@ config:
   RABBIT_HOST: rabbitmq.rabbitmq
   RABBIT_PORT: 5672
   RABBIT_USERNAME: user
+  RABBIT_PASSWORD: pass
 
 postgresql:
   primary:
