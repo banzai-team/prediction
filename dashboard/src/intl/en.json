@@ -23,5 +23,11 @@
   "addFile.submit" : "Submit",
 
   "dropzone.title" : "Drag and drop or click here",
-  "dropzone.drop" : "Drop the file here ..."
+  "dropzone.drop" : "Drop the file here ...",
+
+  "object.title" : "Object #{id}",
+  "object.error" : "Sorry! We have some error",
+  "object.back" : "Back to dashboard",
+  "object.empty" : "No object info",
+  "object.offsets" : "Offset:"
 }
