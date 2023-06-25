@@ -55,6 +55,7 @@ jobs:
       - name: Commit report
         working-directory: k8s-apps/banzai-predictor-gateway/
         run: |
+          git pull
           echo -e "image: \n  tag: ${{ github.sha }}" > values-production.yaml
           git config user.name github-actions
           git config user.email github-actions@github.com
