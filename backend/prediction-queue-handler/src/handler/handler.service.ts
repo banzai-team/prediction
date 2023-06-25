@@ -20,30 +20,35 @@ export class HandlerService {
         // Дата через - год месяц день
     public async doPredict(predictorRequest: PredictorRequest): Promise<void> {
         console.log(`Requesting predictor on: http://${predictorConfig().host}:${predictorConfig().port}/predict`);
-        const json = {
-            obj_prg: predictorRequest.obj_prg,
-            obj_key: predictorRequest.obj_key,
-            task_id: predictorRequest.task_code,
-            percent_ready: predictorRequest.progress,
-            plan_start_date: this.parseDateToDashFormat(predictorRequest.planStart),
-            plan_end_date: this.parseDateToDashFormat(predictorRequest.planEnd),
-            real_start_date: this.parseDateToDashFormat(predictorRequest.actualStart ? predictorRequest.actualStart : predictorRequest.planStart)
-        }
-        const resp = await firstValueFrom(this.httpService.post(`http://${predictorConfig().host}:${predictorConfig().port}/predict`, json));
-        if(resp.status >= 200 && resp.status < 300) {  
-            console.log('Received response from predictor: ', {
-                objectKey: predictorRequest.obj_key,
-                taskCode: predictorRequest.task_code,
-                daysOffset: resp.data['late_days']
-            })
-            await this.updateTask({
-                objectKey: predictorRequest.obj_key,
-                taskCode: predictorRequest.task_code,
-                daysOffset: resp.data['late_days']
-            });
+        if (predictorRequest.obj_key && predictorRequest.task_code) {
+            const json = {
+                obj_prg: predictorRequest.obj_prg,
+                obj_key: predictorRequest.obj_key,
+                task_id: predictorRequest.task_code,
+                percent_ready: predictorRequest.progress,
+                plan_start_date: this.parseDateToDashFormat(predictorRequest.planStart),
+                plan_end_date: this.parseDateToDashFormat(predictorRequest.planEnd),
+                real_start_date: this.parseDateToDashFormat(predictorRequest.actualStart ? predictorRequest.actualStart : predictorRequest.planStart)
+            }
+            const resp = await firstValueFrom(this.httpService.post(`http://${predictorConfig().host}:${predictorConfig().port}/predict`, json));
+            if(resp.status >= 200 && resp.status < 300) {  
+                console.log('Received response from predictor: ', {
+                    objectKey: predictorRequest.obj_key,
+                    taskCode: predictorRequest.task_code,
+                    daysOffset: resp.data['late_days']
+                })
+                await this.updateTask({
+                    objectKey: predictorRequest.obj_key,
+                    taskCode: predictorRequest.task_code,
+                    daysOffset: resp.data['late_days']
+                });
+            } else {
+                throw new InternalServerErrorException('Error when requesting prediction. Status code is not 200s')
+            }
         } else {
-            throw new InternalServerErrorException('Error when requesting prediction. Status code is not 200s')
+            console.warn(`Invalid row formatting. ${predictorRequest} will not be sent to queue`);
         }
+        
     }
 
     parseDateToDashFormat(value: string): string {
