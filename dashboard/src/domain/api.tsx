@@ -28,7 +28,7 @@ export function getFullTasks(id: string | undefined) {
 }
 
 export function getObjects() {
-  return axios.get(`${config.apiUrl}/building-object`);
+  return axios.get(`${config.apiUrl}/building-object?size=1000`);
 }
 
 //
